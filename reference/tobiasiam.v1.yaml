@@ -1,0 +1,109 @@
+openapi: 3.0.0
+info:
+  title: TobiasIAM
+  version: '1.0'
+  contact:
+    name: Eric Copier
+    email: e.copier@ymere.nl
+    url: 'https://www.linkedin.com/in/ericcopier/'
+  license:
+    name: Stichting Ymere
+  description: |-
+    API Description to manage Users, Employees and Positions within Tobias AX. Tobias AX is a product of Aareon. With this API you are able to insert new users, update users (also deactivate them), assign and delete a role, add an delete a relation to an Employee and delete the users.
+    Futhermore you can insert a new employee, add and delete contact details, update and delete the employee.
+    You can also insert a new position, add and delete a reference to the employee, update and delete the position.
+    If a title or a department does not exist, you can maintain the title or deparment (add, update, read, delete)
+servers:
+  - url: 'http://localhost:3000'
+    description: TobiasAXProd
+paths:
+  /User:
+    parameters: []
+    get:
+      summary: Tobias User Endpoints
+      tags:
+        - Tobias User Endpoints
+      responses:
+        '200':
+          description: OK
+          headers:
+            Users:
+              schema:
+                type: string
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  UserId:
+                    type: string
+                    description: UserInfo(userInfo).id
+                  DisplayName:
+                    type: string
+                    description: UserInfo(userInfo).name
+                  Domain:
+                    type: string
+                    description: (userInfo).networkDomain
+                  SamAccountName:
+                    type: string
+                    description: UserInfo(userInfo).networkAlias
+                  AccountType:
+                    type: string
+                    description: UserInfo(userInfo).accountType
+                  Company:
+                    type:
+                      - array
+                      - string
+                    description: UserInfo(userInfo).company
+                    items: {}
+                  Enable:
+                    type: string
+                    description: UserInfo(userInfo).enable
+                  External:
+                    type: string
+                    description: UserInfo(userInfo).externalUser
+                  Emailaddress:
+                    type: string
+                    description: SysUserInfo(SysUserInfo).Email
+                  SID:
+                    type: string
+                    description: UserInfo(userInfo).SID
+        '401':
+          description: Unauthorized
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/unauthorized_response'
+      operationId: get-User-UPN
+      description: Get all properties of a user within Tobias based on a UPN and Domain
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                SAMAccountName:
+                  type: string
+                Domain:
+                  type: string
+                Filter:
+                  type: string
+        description: "Parameters for selecting User. SamAccountname in combination with Domain will return one user or the user is not found. \nif the parameters are empty select all users.\n\nFilter is for future use.\nFilter can be used to get a subset of the users: all disabled users, only direct fields can be used and not related fiels e.g. all users with admin-role.\n"
+      security:
+        - API Key - 1: []
+      parameters: []
+components:
+  schemas:
+    unauthorized_response:
+      title: unauthorized_response
+      type: object
+      properties:
+        cod:
+          type: integer
+        Message:
+          type: string
+  securitySchemes:
+    API Key - 1:
+      name: API Key
+      type: apiKey
+      in: query
