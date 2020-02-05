@@ -208,6 +208,109 @@ paths:
                 - SAMAccountName
                 - Domain
         description: ''
+  /Employee:
+    get:
+      summary: Your GET endpoint
+      tags: []
+      responses: {}
+      operationId: get-Employee
+    post:
+      summary: ''
+      operationId: post-Employee
+      responses:
+        '200':
+          description: OK
+    put:
+      summary: ''
+      operationId: put-Employee
+      responses:
+        '200':
+          description: OK
+  /Position:
+    get:
+      summary: Your GET endpoint
+      tags: []
+      responses: {}
+      operationId: get-Position
+    post:
+      summary: ''
+      operationId: post-Position
+      responses:
+        '200':
+          description: OK
+    put:
+      summary: ''
+      operationId: put-Position
+      responses:
+        '200':
+          description: OK
+    delete:
+      summary: ''
+      operationId: delete-Position
+      responses:
+        '200':
+          description: OK
+  /User/DisableEnable:
+    put:
+      summary: ''
+      operationId: put-User-DisableEnable
+      responses:
+        '200':
+          description: OK
+  /user/Role:
+    get:
+      summary: Your GET endpoint
+      tags: []
+      responses: {}
+      operationId: get-user-Role
+    post:
+      summary: ''
+      operationId: post-user-Role
+      responses:
+        '200':
+          description: OK
+    delete:
+      summary: ''
+      operationId: delete-user-Role
+      responses:
+        '200':
+          description: OK
+  /Employee/Title:
+    get:
+      summary: Your GET endpoint
+      tags: []
+      responses: {}
+      operationId: get-Employee-Title
+    post:
+      summary: ''
+      operationId: post-Employee-Title
+      responses:
+        '200':
+          description: OK
+    delete:
+      summary: ''
+      operationId: delete-Employee-Title
+      responses:
+        '200':
+          description: OK
+  /User/EmployeeRelation:
+    get:
+      summary: Your GET endpoint
+      tags: []
+      responses: {}
+      operationId: get-User-EmployeeRelation
+    post:
+      summary: ''
+      operationId: post-User-EmployeeRelation
+      responses:
+        '200':
+          description: OK
+    delete:
+      summary: ''
+      operationId: delete-User-EmployeeRelation
+      responses:
+        '200':
+          description: OK
 components:
   schemas:
     unauthorized_response:
