@@ -30,10 +30,12 @@ paths:
             Users:
               schema:
                 type: string
+              description: 1 or more users
           content:
             application/json:
               schema:
                 type: object
+                description: User properties
                 properties:
                   UserId:
                     type: string
@@ -68,14 +70,128 @@ paths:
                   SID:
                     type: string
                     description: UserInfo(userInfo).SID
+                required:
+                  - UserId
+                  - DisplayName
+                  - Domain
+                  - SamAccountName
+                  - AccountType
+                  - Enable
+                  - External
+                  - SID
+              examples:
+                example-1: {}
         '401':
           description: Unauthorized
           content:
             application/json:
               schema:
                 $ref: '#/components/schemas/unauthorized_response'
-      operationId: get-User-UPN
+        '404':
+          description: Not Found
+      operationId: get-User
       description: Get all properties of a user within Tobias based on a UPN and Domain
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              description: User identification or filtering
+              properties:
+                SAMAccountName:
+                  type: string
+                  description: UserInfo(userInfo).networkAlias
+                Domain:
+                  type: string
+                  description: (userInfo).networkDomain
+                Filter:
+                  type: string
+        description: "Parameters for selecting User. SamAccountname in combination with Domain will return one user or the user is not found. \nif the parameters are empty select all users.\n\nFilter is for future use.\nFilter can be used to get a subset of the users: all disabled users, only direct fields can be used and not related fiels e.g. all users with admin-role.\n"
+      security:
+        - API Key - 1: []
+      parameters: []
+    post:
+      summary: ''
+      operationId: post-User
+      responses:
+        '201':
+          description: Created
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  UserID:
+                    type: string
+                    description: UserInfo(userInfo).id
+                  AccountType:
+                    type: string
+                    description: UserInfo(userInfo).accountType
+                  SID:
+                    type: string
+                    description: UserInfo(userInfo).SID
+                required:
+                  - UserID
+                  - AccountType
+                  - SID
+        '400':
+          description: Bad Request
+        '401':
+          description: Unauthorized
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/unauthorized_response'
+      description: |-
+        Insert a user in Tobias AX. The user must already exists in the Active Directory, because Tobias AX will get this user from the Active Directory. Extra or supplementary fields are supplied so the registration can be done thoroughly.
+        Standard a Systemuser-Role is applied to the user.
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              description: User properties
+              properties:
+                SamAccountName:
+                  type: string
+                  description: UserInfo(userInfo).networkAlias
+                DisplayName:
+                  type: string
+                  description: UserInfo(userInfo).name
+                Company:
+                  type: string
+                  description: UserInfo(userInfo).company
+                Enable:
+                  type: string
+                  description: UserInfo(userInfo).enable
+                EmailAddress:
+                  type: string
+                  description: SysUserInfo(SysUserInfo).Email
+                External:
+                  type: string
+                  description: UserInfo(userInfo).externalUser
+                Domain:
+                  type: string
+                  description: (userInfo).networkDomain
+              required:
+                - SamAccountName
+                - DisplayName
+                - Enable
+                - External
+          application/xml:
+            schema:
+              type: object
+              properties: {}
+        description: All properties for inserting a user in Tobias AX
+      tags:
+        - Tobias User Endpoints
+    delete:
+      summary: ''
+      operationId: delete-User
+      responses:
+        '200':
+          description: OK
+      description: 'Parameters for selecting User. SamAccountname in combination with Domain will return one user or the user is not found. If one user is found, the user is deleted.'
       requestBody:
         content:
           application/json:
@@ -84,14 +200,14 @@ paths:
               properties:
                 SAMAccountName:
                   type: string
+                  description: UserInfo(userInfo).networkAlias
                 Domain:
                   type: string
-                Filter:
-                  type: string
-        description: "Parameters for selecting User. SamAccountname in combination with Domain will return one user or the user is not found. \nif the parameters are empty select all users.\n\nFilter is for future use.\nFilter can be used to get a subset of the users: all disabled users, only direct fields can be used and not related fiels e.g. all users with admin-role.\n"
-      security:
-        - API Key - 1: []
-      parameters: []
+                  description: (userInfo).networkDomain
+              required:
+                - SAMAccountName
+                - Domain
+        description: ''
 components:
   schemas:
     unauthorized_response:
