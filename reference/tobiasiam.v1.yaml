@@ -275,7 +275,7 @@ paths:
       responses:
         '200':
           description: OK
-  /Employee/Title:
+  /Title:
     get:
       summary: Your GET endpoint
       tags: []
@@ -293,7 +293,8 @@ paths:
       responses:
         '200':
           description: OK
-  /User/EmployeeRelation:
+    parameters: []
+  /User/Employee:
     get:
       summary: Your GET endpoint
       tags: []
@@ -308,6 +309,94 @@ paths:
     delete:
       summary: ''
       operationId: delete-User-EmployeeRelation
+      responses:
+        '200':
+          description: OK
+    parameters: []
+  /Employee/Ending:
+    put:
+      summary: ''
+      operationId: put-Employee-Ending
+      responses:
+        '200':
+          description: OK
+  /Position/Ending:
+    put:
+      summary: ''
+      operationId: put-Position-Ending
+      responses:
+        '200':
+          description: OK
+  /Position/Manager:
+    get:
+      summary: Your GET endpoint
+      tags: []
+      responses: {}
+      operationId: get-Position-Manager
+    put:
+      summary: ''
+      operationId: put-Position-Manager
+      responses:
+        '200':
+          description: OK
+    delete:
+      summary: ''
+      operationId: delete-Position-Manager
+      responses:
+        '200':
+          description: OK
+  /Position/Employee:
+    get:
+      summary: Your GET endpoint
+      tags: []
+      responses: {}
+      operationId: get-Position-Employee
+    delete:
+      summary: ''
+      operationId: delete-Position-Employee
+      responses:
+        '200':
+          description: OK
+    post:
+      summary: ''
+      operationId: post-Position-Employee
+      responses:
+        '200':
+          description: OK
+  /Department:
+    get:
+      summary: Your GET endpoint
+      tags: []
+      responses: {}
+      operationId: get-Position-Department
+    post:
+      summary: ''
+      operationId: post-Position-Department
+      responses:
+        '200':
+          description: OK
+    delete:
+      summary: ''
+      operationId: delete-Position-Department
+      responses:
+        '200':
+          description: OK
+    parameters: []
+  /Employee/Contactdetails:
+    get:
+      summary: Your GET endpoint
+      tags: []
+      responses: {}
+      operationId: get-Employee-Contactdetails
+    post:
+      summary: ''
+      operationId: post-Employee-Contactdetails
+      responses:
+        '200':
+          description: OK
+    delete:
+      summary: ''
+      operationId: delete-Employee-Contactdetails
       responses:
         '200':
           description: OK
