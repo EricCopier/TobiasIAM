@@ -328,6 +328,46 @@ paths:
       responses:
         '200':
           description: OK
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  SAMAccountName:
+                    type: string
+                    description: UserInfo(userInfo).networkAlias
+                  Domain:
+                    type: string
+                    description: (userInfo).networkDomain
+                  Enable:
+                    type: string
+                    description: UserInfo(userInfo).enable
+                  Result:
+                    type: string
+                    description: 'Result can be: "OK", "User not found", "Domain not Found", "Unable to set", ...(?)'
+              examples:
+                Example-One User:
+                  value:
+                    Users:
+                      - SAMAccountName: e.copier_ym
+                        Domain: asp.local
+                        Enable: 0
+                        Result: OK
+                Example-Multiple Users:
+                  value:
+                    Users:
+                      - SAMAccountName: e.copier_ym
+                        Domain: asp.local
+                        Enable: 0
+                        Result: OK
+                      - SAMAccountName: a.de.vries_ym
+                        Domain: asp.local
+                        Enable: 0
+                        Result: User not found
+                      - SAMAccountName: a.schalkwijk.froe_ym
+                        Domain: asp.local
+                        Enable: 1
+                        Result: Unable to set
       description: Enable or disable users
       requestBody:
         content:
@@ -337,10 +377,13 @@ paths:
               properties:
                 SAMAccountName:
                   type: string
+                  description: UserInfo(userInfo).networkAlias
                 Domain:
                   type: string
+                  description: (userInfo).networkDomain
                 Enable:
                   type: integer
+                  description: UserInfo(userInfo).enable
             examples:
               Example-One User Disable:
                 value:
@@ -366,18 +409,66 @@ paths:
       tags: []
       responses: {}
       operationId: get-user-Role
+      description: ''
     post:
       summary: ''
       operationId: post-user-Role
       responses:
         '200':
           description: OK
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  SamAccountName:
+                    type: string
+                  Domain:
+                    type: string
+                  RoleID:
+                    type: number
+                  Result:
+                    type: string
+                    description: 'Result can be: "OK", "User not found", "Role not found", "User already had this role", "Role cannot be assigned due to SoD-violation"'
+      description: Assign a Role to an User
     delete:
       summary: ''
       operationId: delete-user-Role
       responses:
         '200':
           description: OK
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  SAMAccountName:
+                    type: string
+                  Domain:
+                    type: string
+                  RoleID:
+                    type: string
+                  Result:
+                    type: string
+                    description: 'Result can be: "OK", "User not found", "Role was not assigned to this user"'
+      description: Remove a Role from an User
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                SAMAccountName:
+                  type: string
+                Domain:
+                  type: string
+                RoleID:
+                  type: integer
+              required:
+                - SAMAccountName
+                - Domain
+                - RoleID
+        description: Supply the key-fields for the user and the role.
   /Title:
     get:
       summary: Your GET endpoint
@@ -508,14 +599,164 @@ paths:
     get:
       summary: Your GET endpoint
       tags: []
-      responses: {}
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  RoleID:
+                    type: integer
+                    description: RoleHandle (Tobias_AX_Prod_Model.dbo.ModelSECURITYROLE)
+                  RoleName:
+                    type: string
+                    description: |-
+                      Name
+                      (Tobias_AX_Prod_Model.dbo.ModelSECURITYROLE)
+                  RoleDescription:
+                    type: string
+                    description: |-
+                      Description
+                      (Tobias_AX_Prod_Model.dbo.ModelSECURITYROLE)
+              examples:
+                Example-One Role:
+                  value:
+                    Roles:
+                      - RoleID: 1437194
+                        RoleName: ZZ_VendSetupNumberSequenceMaintain
+                        RoleDescription: Leveranciers - Boekstuknummers per boekjaar instellen
+                Example-Multiple Roles:
+                  value:
+                    Roles:
+                      - RoleID: 886351
+                        RoleName: '-SYSADMIN-'
+                        RoleDescription: '@SYS344031'
+                      - RoleID: 1437180
+                        RoleName: YM_FUNCTIONEELBEHEER_KLANT
+                        RoleDescription: __FUNCTIONEELBEHEER_KLANT
+                      - RoleID: 1437194
+                        RoleName: ZZ_VendSetupNumberSequenceMaintain
+                        RoleDescription: Leveranciers - Boekstuknummers per boekjaar instellen
+                      - RoleID: 1437197
+                        RoleName: YM_PMCContractsMaintain
+                        RoleDescription: Contract - Nieuwe en bestaande contracten muteren (Excl leegstandscode)
+        '':
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  RoleID:
+                    type: integer
+                  RoleName:
+                    type: string
+                  RoleDescription:
+                    type: string
       operationId: get-Role
+      description: "Get the role or all roles\n\nExample SQL code:\nSELECT\t distinct RoleHandle as RoleID\n\t\t,Name as RoleName\n\t\t,Description as RoleDescription\nFROM    IAM.Tobias_AX_Prod_Model.dbo.ModelSECURITYROLE \nWHERE\tRolehandle > 1000000\t\t--??? left(Description,1) <> '@' --> Selection of all user-roles, which can be selected by customers\n   OR RoleHandle = 886356 --> SystemUser\n   OR RoleHandle = 886351 --> -SYSADMIN-  \n   FOR JSON PATH, ROOT('Roles')"
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                RoleID:
+                  type: integer
+                  description: RoleHandle (Tobias_AX_Prod_Model.dbo.ModelSECURITYROLE)
+            examples:
+              Example-One Role:
+                value:
+                  Roles:
+                    - RoleID: 886356
+              Example-Multiple Roles:
+                value:
+                  Roles:
+                    - RoleID: 886351
+                    - RoleID: 886356
+              Example-Select all:
+                value:
+                  Roles:
+                    - RoleID: 0
+        description: A integer to select the role. If empty or 0 then select all
   /Role/User:
     get:
       summary: Your GET endpoint
       tags: []
-      responses: {}
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  RoleID:
+                    type: integer
+                  RoleDescription:
+                    type: string
+                  SAMAccountName:
+                    type: string
+                  DisplayName:
+                    type: string
+              examples:
+                'Example-One Role (Only one user is assigned to this role!)':
+                  value:
+                    UsersPerRole:
+                      - RoleID: 1437180
+                        RoleDescription: YM_FUNCTIONEELBEHEER_KLANT
+                        SamAccountName: p.marcus_ym
+                        DisplayName: Paul Marcus
+                Example-Multiple Roles:
+                  value:
+                    UsersPerRole:
+                      - RoleID: 886351
+                        RoleDescription: '-SYSADMIN-'
+                        SamAccountName: ''
+                        DisplayName: ''
+                      - RoleID: 886351
+                        RoleDescription: '-SYSADMIN-'
+                        SamAccountName: 238mhattar
+                        DisplayName: Michael Hattar
+                      - RoleID: 886351
+                        RoleDescription: '-SYSADMIN-'
+                        SamAccountName: a.maat_ym
+                        DisplayName: Aart Maat
+                      - RoleID: 886351
+                        RoleDescription: '-SYSADMIN-'
+                        SamAccountName: a.wilting_ym
+                        DisplayName: Arno Wilting
+                      - RoleID: 1437180
+                        RoleDescription: YM_FUNCTIONEELBEHEER_KLANT
+                        SamAccountName: p.marcus_ym
+                        DisplayName: Paul Marcus
+                      - RoleID: 1437197
+                        RoleDescription: YM_PMCContractsMaintain
+                        SamAccountName: ''
+                        DisplayName: ''
       operationId: get-Role-User
+      description: Get all users with a particular role
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                RoleID:
+                  type: integer
+                  description: RoleHandle (Tobias_AX_Prod_Model.dbo.ModelSECURITYROLE)
+            examples:
+              Example-One Role:
+                value:
+                  Roles:
+                    - RoleID: 886351
+              Example-Multiple Roles:
+                value:
+                  Roles:
+                    - RoleID: 886351
+                    - RoleID: 1437180
+                    - RoleID: 1437197
 components:
   schemas:
     unauthorized_response:
