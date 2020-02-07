@@ -654,6 +654,28 @@ paths:
                     type: string
                   RoleDescription:
                     type: string
+              examples:
+                Example-One Role:
+                  value:
+                    Roles:
+                      - RoleID: 1437197
+                        RoleName: YM_PMCContractsMaintain
+                        RoleDescription: Contract - Nieuwe en bestaande contracten muteren (Excl leegstandscode)
+                Example-Multiple Roles:
+                  value:
+                    Roles:
+                      - RoleID: 886351
+                        RoleName: '-SYSADMIN-'
+                        RoleDescription: '@SYS344031'
+                      - RoleID: 1437180
+                        RoleName: YM_FUNCTIONEELBEHEER_KLANT
+                        RoleDescription: __FUNCTIONEELBEHEER_KLANT
+                      - RoleID: 1437194
+                        RoleName: ZZ_VendSetupNumberSequenceMaintain
+                        RoleDescription: Leveranciers - Boekstuknummers per boekjaar instellen
+                      - RoleID: 1437197
+                        RoleName: YM_PMCContractsMaintain
+                        RoleDescription: Contract - Nieuwe en bestaande contracten muteren (Excl leegstandscode)
       operationId: get-Role
       description: "Get the role or all roles\n\nExample SQL code:\nSELECT\t distinct RoleHandle as RoleID\n\t\t,Name as RoleName\n\t\t,Description as RoleDescription\nFROM    IAM.Tobias_AX_Prod_Model.dbo.ModelSECURITYROLE \nWHERE\tRolehandle > 1000000\t\t--??? left(Description,1) <> '@' --> Selection of all user-roles, which can be selected by customers\n   OR RoleHandle = 886356 --> SystemUser\n   OR RoleHandle = 886351 --> -SYSADMIN-  \n   FOR JSON PATH, ROOT('Roles')"
       requestBody:
