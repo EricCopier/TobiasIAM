@@ -59,11 +59,11 @@ paths:
                     description: UserInfo(userInfo).company
                     items: {}
                   Enable:
-                    type: string
+                    type: integer
                     description: UserInfo(userInfo).enable
-                  External:
-                    type: string
+                  ExternalUser:
                     description: UserInfo(userInfo).externalUser
+                    type: integer
                   Emailaddress:
                     type: string
                     description: SysUserInfo(SysUserInfo).Email
@@ -77,10 +77,65 @@ paths:
                   - SamAccountName
                   - AccountType
                   - Enable
-                  - External
+                  - ExternalUser
                   - SID
               examples:
-                example-1: {}
+                Example-One user:
+                  value:
+                    Users:
+                      - UserId: 238ecopi
+                        DisplayName: Eric Copier
+                        Domain: asp.local
+                        SamAccountName: e.copier_ym
+                        AccountType: Active Directory-gebruiker
+                        Company: '100'
+                        Enable: 1
+                        ExternalUser: 0
+                        Emailaddress: e.copier@ymere.nl
+                        SID: S-1-5-21-114616164-2729428166-570199722-519998
+                Example-Multiple users:
+                  value:
+                    Users:
+                      - UserId: 001mvanz
+                        DisplayName: 'Zon, Merlijn van (Aareon)'
+                        Domain: offices.local
+                        SamAccountName: 001mvanzon
+                        AccountType: Active Directory-gebruiker
+                        Company: '100'
+                        Enable: 0
+                        ExternalUser: 0
+                        EmailAddress: merlijn.vanzon@aareon.nl
+                        SID: S-1-5-21-736736335-1643130235-4022078510-28832
+                      - UserId: 238ascha
+                        DisplayName: 'Schalkwijk - Froeling, Annika'
+                        Domain: asp.local
+                        SamAccountName: a.schalkwijk.froe_ym
+                        AccountType: Active Directory-gebruiker
+                        Company: '100'
+                        Enable: 0
+                        ExternalUser: 0
+                        EmailAddress: a.schalkwijk.froeling@ymere.nl
+                        SID: S-1-5-21-114616164-2729428166-570199722-541935
+                      - UserId: 238asoer
+                        DisplayName: Aashni Soerdjbali
+                        Domain: asp.local
+                        SamAccountName: a.soerdjbali_ym
+                        AccountType: Active Directory-gebruiker
+                        Company: '100'
+                        Enable: 0
+                        ExternalUser: 0
+                        EmailAddress: a.soerdjbali@ymere.nl
+                        SID: S-1-5-21-114616164-2729428166-570199722-541994
+                      - UserId: 238avan2
+                        DisplayName: Alexander van Bruggen
+                        Domain: asp.local
+                        SamAccountName: a.van.bruggen_ym
+                        AccountType: Active Directory-gebruiker
+                        Company: '100'
+                        Enable: 0
+                        ExternalUser: 0
+                        EmailAddress: A.van.Bruggen@ymere.nl
+                        SID: S-1-5-21-114616164-2729428166-570199722-539660
         '401':
           description: Unauthorized
           content:
@@ -90,7 +145,7 @@ paths:
         '404':
           description: Not Found
       operationId: get-User
-      description: Get all properties of a user within Tobias based on a UPN and Domain
+      description: "Get all properties of a user within Tobias based on a UPN and Domain\n\nExample SQL Code:\nSELECT    UI.ID AS UserId\n        , UI.NAME as DisplayName\n\t, UI.NETWORKDOMAIN as Domain\n\t, UI.NETWORKALIAS as SamAccountName\n\t, CASE UI.[ACCOUNTTYPE] WHEN 0 THEN 'Active Directory-gebruiker' WHEN 1 THEN 'Active Directory-groep' WHEN 2 THEN 'Claimgebruiker' ELSE 'Onbekend' END AS AccountType\n\t, UI.COMPANY as Company\n\t, UI.Enable as Enable\n\t, UI.EXTERNALUSER as ExternalUser\n\t, SUI.EMAIL as EmailAddress\n\t, UI.SID as SID\nFROM    IAM.Tobias_AX_Prod.dbo.USERINFO AS UI LEFT OUTER JOIN\n        IAM.Tobias_AX_Prod.dbo.SYSUSERINFO AS SUI ON UI.ID = SUI.ID\nWhere UI.Networkdomain = 'asp.local' AND UI.NETWORKALIAS = 'e.copier_ym' FOR JSON PATH, ROOT('Users')\n"
       requestBody:
         content:
           application/json:
@@ -106,7 +161,23 @@ paths:
                   description: (userInfo).networkDomain
                 Filter:
                   type: string
-        description: "Parameters for selecting User. SamAccountname in combination with Domain will return one user or the user is not found. \nif the parameters are empty select all users.\n\nFilter is for future use.\nFilter can be used to get a subset of the users: all disabled users, only direct fields can be used and not related fiels e.g. all users with admin-role.\n"
+            examples:
+              Example Get one user:
+                value:
+                  SAMAccountName: e.copier_ym
+                  Domain: asp.local
+                  Filter: ''
+              Example Get all users from one domain:
+                value:
+                  SAMAccountName: ''
+                  Domain: asp.local
+                  Filter: ''
+              Example-Get all disabled Users in one Domain:
+                value:
+                  SAMAccountName: ''
+                  Domain: asp.local
+                  Filter: Enable = False
+        description: "Parameters for selecting User. SamAccountname in combination with Domain will return one user or the user is not found. \nif all the parameters are empty select all users.\n\nFilter is for future use.\nFilter can be used to get a subset of the users: all disabled users, only direct fields can be used and not related fiels e.g. all users with admin-role. -> this is not possible (yet).\n"
       security:
         - API Key - 1: []
       parameters: []
@@ -162,13 +233,13 @@ paths:
                   type: string
                   description: UserInfo(userInfo).company
                 Enable:
-                  type: string
+                  type: integer
                   description: UserInfo(userInfo).enable
                 EmailAddress:
                   type: string
                   description: SysUserInfo(SysUserInfo).Email
-                External:
-                  type: string
+                ExternalUser:
+                  type: integer
                   description: UserInfo(userInfo).externalUser
                 Domain:
                   type: string
@@ -177,7 +248,7 @@ paths:
                 - SamAccountName
                 - DisplayName
                 - Enable
-                - External
+                - ExternalUser
           application/xml:
             schema:
               type: object
@@ -257,6 +328,38 @@ paths:
       responses:
         '200':
           description: OK
+      description: Enable or disable users
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                SAMAccountName:
+                  type: string
+                Domain:
+                  type: string
+                Enable:
+                  type: integer
+            examples:
+              Example-One User Disable:
+                value:
+                  Users:
+                    - SAMAccountName: e.copier_ym
+                      Domain: asp.local
+                      Enable: 0
+              Example-Multiple Users - Enable/Disable:
+                value:
+                  Users:
+                    - SAMAccountName: e.copier_ym
+                      Domain: asp.local
+                      Enable: 0
+                    - SAMAccountName: a.de.vries_ym
+                      Domain: asp.local
+                      Enable: 0
+                    - SAMAccountName: a.schalkwijk.froe_ym
+                      Domain: asp.local
+                      Enable: 1
   /user/Role:
     get:
       summary: Your GET endpoint
@@ -369,6 +472,7 @@ paths:
       tags: []
       responses: {}
       operationId: get-Position-Department
+      description: 'Get all details of one or all Department(s) '
     post:
       summary: ''
       operationId: post-Position-Department
@@ -400,6 +504,18 @@ paths:
       responses:
         '200':
           description: OK
+  /Role:
+    get:
+      summary: Your GET endpoint
+      tags: []
+      responses: {}
+      operationId: get-Role
+  /Role/User:
+    get:
+      summary: Your GET endpoint
+      tags: []
+      responses: {}
+      operationId: get-Role-User
 components:
   schemas:
     unauthorized_response:
