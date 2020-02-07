@@ -291,6 +291,43 @@ paths:
       responses:
         '200':
           description: OK
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                EmployeeID:
+                  type: string
+                NickName:
+                  type: string
+                Initials:
+                  type: string
+                NamePrefix:
+                  type: string
+                Lastname:
+                  type: string
+                Salutation:
+                  type: string
+                EntryName:
+                  type: string
+                Title:
+                  type: string
+                Gender:
+                  type: string
+                Emailaddress:
+                  type: string
+                MobileNR:
+                  type: string
+                PhoneNR:
+                  type: string
+                StartDate:
+                  type: string
+                EndDate:
+                  type: string
+                '':
+                  type: string
+        description: ''
     put:
       summary: ''
       operationId: put-Employee
