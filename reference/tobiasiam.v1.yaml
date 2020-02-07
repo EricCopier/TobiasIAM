@@ -407,9 +407,36 @@ paths:
     get:
       summary: Your GET endpoint
       tags: []
-      responses: {}
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  SAMAccountName:
+                    type: string
+                  Domain:
+                    type: string
+                  RoleID:
+                    type: integer
+                  RoleName:
+                    type: string
+                  RoleDescription:
+                    type: string
       operationId: get-user-Role
-      description: ''
+      description: Get the Roles assigned to an user or a selection of users.
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                SAMAccountName:
+                  type: string
+                Domain:
+                  type: string
     post:
       summary: ''
       operationId: post-user-Role
@@ -421,7 +448,7 @@ paths:
               schema:
                 type: object
                 properties:
-                  SamAccountName:
+                  SAMAccountName:
                     type: string
                   Domain:
                     type: string
@@ -431,6 +458,24 @@ paths:
                     type: string
                     description: 'Result can be: "OK", "User not found", "Role not found", "User already had this role", "Role cannot be assigned due to SoD-violation"'
       description: Assign a Role to an User
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                SAMAccountName:
+                  type: string
+                Domain:
+                  type: string
+                RoleID:
+                  type: integer
+                  description: RoleHandle (Tobias_AX_Prod_Model.dbo.ModelSECURITYROLE)
+              required:
+                - SAMAccountName
+                - Domain
+                - RoleID
+        description: ''
     delete:
       summary: ''
       operationId: delete-user-Role
@@ -448,6 +493,7 @@ paths:
                     type: string
                   RoleID:
                     type: string
+                    description: RoleHandle (Tobias_AX_Prod_Model.dbo.ModelSECURITYROLE)
                   Result:
                     type: string
                     description: 'Result can be: "OK", "User not found", "Role was not assigned to this user"'
@@ -464,6 +510,7 @@ paths:
                   type: string
                 RoleID:
                   type: integer
+                  description: RoleHandle (Tobias_AX_Prod_Model.dbo.ModelSECURITYROLE)
               required:
                 - SAMAccountName
                 - Domain
@@ -716,8 +763,10 @@ paths:
                 properties:
                   RoleID:
                     type: integer
+                    description: RoleHandle (Tobias_AX_Prod_Model.dbo.ModelSECURITYROLE)
                   RoleDescription:
                     type: string
+                    description: RoleHandle (Tobias_AX_Prod_Model.dbo.ModelSECURITYROLE)
                   SAMAccountName:
                     type: string
                   DisplayName:
