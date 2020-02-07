@@ -425,8 +425,72 @@ paths:
                     type: string
                   RoleDescription:
                     type: string
+              examples:
+                Example-One User:
+                  value:
+                    RolesPerUser:
+                      - SamAccountName: e.copier_ym
+                        Domain: asp.local
+                        DisplayName: Eric Copier
+                        RoleID: 886351
+                        RoleName: '-SYSADMIN-'
+                        RoleDescription: '@SYS344031'
+                      - SamAccountName: e.copier_ym
+                        Domain: asp.local
+                        DisplayName: Eric Copier
+                        RoleID: 886356
+                        RoleName: SystemUser
+                        RoleDescription: '@SYS323380'
+                Example-Multiple User:
+                  value:
+                    RolesPerUser:
+                      - SamAccountName: a.grudzien_ym
+                        Domain: asp.local
+                        DisplayName: Alex Grudzien
+                        RoleID: 886356
+                        RoleName: SystemUser
+                        RoleDescription: '@SYS323380'
+                      - SamAccountName: a.grudzien_ym
+                        Domain: asp.local
+                        DisplayName: Alex Grudzien
+                        RoleID: 1401443
+                        RoleName: AR_FoxContactSeniorUser
+                        RoleDescription: ''
+                      - SamAccountName: a.grudzien_ym
+                        Domain: asp.local
+                        DisplayName: Alex Grudzien
+                        RoleID: 1401444
+                        RoleName: AR_FoxContactUser
+                        RoleDescription: ''
+                      - SamAccountName: a.grudzien_ym
+                        Domain: asp.local
+                        DisplayName: Alex Grudzien
+                        RoleID: 1437068
+                        RoleName: YM_CZ_MDW_KLANTCONTACT
+                        RoleDescription: __CZ_MDW_KLANTCONTACT
+                      - SamAccountName: e.copier_ym
+                        Domain: asp.local
+                        DisplayName: Eric Copier
+                        RoleID: 886351
+                        RoleName: '-SYSADMIN-'
+                        RoleDescription: '@SYS344031'
+                      - SamAccountName: e.copier_ym
+                        Domain: asp.local
+                        DisplayName: Eric Copier
+                        RoleID: 886356
+                        RoleName: SystemUser
+                        RoleDescription: '@SYS323380'
       operationId: get-user-Role
-      description: Get the Roles assigned to an user or a selection of users.
+      description: |-
+        Get the Roles assigned to an user or a selection of users. Every user has al least one role (SystemUser).
+
+        Example SQL Code:
+        SELECT        Distinct UI.NETWORKALIAS as SamAccountName, UI.NETWORKDOMAIN as Domain, UI.NAME as DisplayName, ISNULL(SR.RoleHandle,'') as RoleID,  ISNULL(SR.NAME,'') AS RoleName, ISNULL(SR.Description,'') AS RoleDescription
+        FROM            IAM.Tobias_AX_Prod_Model.dbo.ModelSECURITYROLE AS SR RIGHT JOIN
+                                 IAM.Tobias_AX_Prod.dbo.SECURITYUSERROLE AS SUR ON SR.ROLEHANDLE = SUR.SECURITYROLE RIGHT JOIN
+                                 IAM.Tobias_AX_Prod.dbo.userinfo AS UI ON SUR.USER_ = UI.ID
+        WHERE        UI.Networkdomain = 'asp.local' AND UI.NETWORKALIAS = 'e.copier_ym' or UI.Networkalias = 'a.grudzien_ym'
+        FOR JSON PATH, ROOT('RolesPerUser')
       requestBody:
         content:
           application/json:
@@ -437,6 +501,25 @@ paths:
                   type: string
                 Domain:
                   type: string
+            examples:
+              Example-One User:
+                value:
+                  RolesPerUser:
+                    - SamAccountName: e.copier_ym
+                      Domain: asp.local
+              Example-Multiple User:
+                value:
+                  RolesPerUser:
+                    - SamAccountName: e.copier_ym
+                      Domain: asp.local
+                    - SamAccountName: a.grudzien_ym
+                      Domain: asp.local
+              Example-Select all users in Domain:
+                value:
+                  RolesPerUser:
+                    - SamAccountName: ''
+                      Domain: asp.local
+        description: Provide the selection paramaters
     post:
       summary: ''
       operationId: post-user-Role
