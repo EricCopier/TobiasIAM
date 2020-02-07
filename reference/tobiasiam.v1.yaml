@@ -417,14 +417,23 @@ paths:
                 properties:
                   SAMAccountName:
                     type: string
+                    description: UserInfo(userInfo).networkAlias
                   Domain:
                     type: string
+                    description: UserInfo(userInfo).networkDomain
                   RoleID:
                     type: integer
+                    description: RoleHandle (Tobias_AX_Prod_Model.dbo.ModelSECURITYROLE)
                   RoleName:
                     type: string
+                    description: |-
+                      Name
+                      (Tobias_AX_Prod_Model.dbo.ModelSECURITYROLE)
                   RoleDescription:
                     type: string
+                    description: |-
+                      Description
+                      (Tobias_AX_Prod_Model.dbo.ModelSECURITYROLE)
               examples:
                 Example-One User:
                   value:
@@ -499,8 +508,10 @@ paths:
               properties:
                 SAMAccountName:
                   type: string
+                  description: UserInfo(userInfo).networkAlias
                 Domain:
                   type: string
+                  description: UserInfo(userInfo).networkDomain
             examples:
               Example-One User:
                 value:
@@ -533,10 +544,13 @@ paths:
                 properties:
                   SAMAccountName:
                     type: string
+                    description: UserInfo(userInfo).networkAlias
                   Domain:
                     type: string
+                    description: UserInfo(userInfo).networkDomain
                   RoleID:
                     type: number
+                    description: RoleHandle (Tobias_AX_Prod_Model.dbo.ModelSECURITYROLE)
                   Result:
                     type: string
                     description: 'Result can be: "OK", "User not found", "Role not found", "User already had this role", "Role cannot be assigned due to SoD-violation"'
@@ -549,8 +563,10 @@ paths:
               properties:
                 SAMAccountName:
                   type: string
+                  description: UserInfo(userInfo).networkAlias
                 Domain:
                   type: string
+                  description: UserInfo(userInfo).networkDomain
                 RoleID:
                   type: integer
                   description: RoleHandle (Tobias_AX_Prod_Model.dbo.ModelSECURITYROLE)
@@ -558,7 +574,7 @@ paths:
                 - SAMAccountName
                 - Domain
                 - RoleID
-        description: ''
+        description: Supply the key-fields for the user and the role.
     delete:
       summary: ''
       operationId: delete-user-Role
@@ -572,8 +588,10 @@ paths:
                 properties:
                   SAMAccountName:
                     type: string
+                    description: UserInfo(userInfo).networkAlias
                   Domain:
                     type: string
+                    description: UserInfo(userInfo).networkDomain
                   RoleID:
                     type: string
                     description: RoleHandle (Tobias_AX_Prod_Model.dbo.ModelSECURITYROLE)
@@ -589,8 +607,10 @@ paths:
               properties:
                 SAMAccountName:
                   type: string
+                  description: UserInfo(userInfo).networkAlias
                 Domain:
                   type: string
+                  description: UserInfo(userInfo).networkDomain
                 RoleID:
                   type: integer
                   description: RoleHandle (Tobias_AX_Prod_Model.dbo.ModelSECURITYROLE)
@@ -604,16 +624,17 @@ paths:
       summary: Your GET endpoint
       tags: []
       responses: {}
-      operationId: get-Employee-Title
+      operationId: get-Title
+      description: ''
     post:
       summary: ''
-      operationId: post-Employee-Title
+      operationId: post-Title
       responses:
         '200':
           description: OK
     delete:
       summary: ''
-      operationId: delete-Employee-Title
+      operationId: delete-Title
       responses:
         '200':
           description: OK
@@ -852,8 +873,10 @@ paths:
                     description: RoleHandle (Tobias_AX_Prod_Model.dbo.ModelSECURITYROLE)
                   SAMAccountName:
                     type: string
+                    description: UserInfo(userInfo).networkAlias
                   DisplayName:
                     type: string
+                    description: UserInfo(userInfo).Name
               examples:
                 'Example-One Role (Only one user is assigned to this role!)':
                   value:
