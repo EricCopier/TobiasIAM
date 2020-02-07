@@ -327,6 +327,16 @@ paths:
                   type: string
                 '':
                   type: string
+              required:
+                - EmployeeID
+                - NickName
+                - Initials
+                - Lastname
+                - Salutation
+                - EntryName
+                - Title
+                - Gender
+                - EndDate
         description: ''
     put:
       summary: ''
