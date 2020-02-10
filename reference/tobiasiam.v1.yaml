@@ -720,6 +720,12 @@ paths:
                   type: string
               required:
                 - PositionID
+            examples:
+              Example-1:
+                value:
+                  Position:
+                    - PositionID: '6313'
+        description: ''
     post:
       summary: ''
       operationId: post-Position
@@ -908,6 +914,11 @@ paths:
                   type: string
               required:
                 - PositionID
+            examples:
+              Example-1:
+                value:
+                  Position:
+                    - PositionID: '6313'
       description: Delete a position (Is this possible? Probably only when a position is created by mistake)
   /User/DisableEnable:
     put:
@@ -1207,26 +1218,6 @@ paths:
                 - Domain
                 - RoleID
         description: Supply the key-fields for the user and the role.
-  /Title:
-    get:
-      summary: Your GET endpoint
-      tags: []
-      responses: {}
-      operationId: get-Title
-      description: ''
-    post:
-      summary: ''
-      operationId: post-Title
-      responses:
-        '200':
-          description: OK
-    delete:
-      summary: ''
-      operationId: delete-Title
-      responses:
-        '200':
-          description: OK
-    parameters: []
   /User/Employee:
     get:
       summary: Your GET endpoint
@@ -1540,7 +1531,7 @@ paths:
                   Position:
                     - PositionID: '6313'
                       EndDate: 30-06-2020
-      description: 'End the Position. This will also mean that the Employee will not be assigned anymore, so an EndDate will be set at the assignment of the Employee to this position'
+      description: 'End the Position. This will also mean that the Employee will not be assigned anymore, so an EndDate will be set at the assignment of the Employee to this position.'
   /Position/Manager:
     get:
       summary: Your GET endpoint
@@ -1844,38 +1835,92 @@ paths:
             application/json:
               schema:
                 type: object
+                properties:
+                  Department:
+                    type: string
+                  SearchName:
+                    type: string
+                  UnitCode:
+                    type: string
+                  TypeOfUnit:
+                    type: string
+                  ManagerEmployeeID:
+                    type: string
+                  Result:
+                    type: string
               examples:
-                Example-One position:
+                Example-One Department:
                   value:
-                    Position:
-                      - PositionID: '6313'
-                        Task: Werken
-                        DepartmentName: Concernzaken
-                        DepartmentAlias: Concernzaken
-                        PositionDescription: Werken bij Ymere
-                        PositionTitle: Medewerker projecten
+                    Departments:
+                      - Department: Klantcontact
+                        SearchName: Klantcontact
+                        UnitCode: AVW_KC
+                        TypeOfUnit: Afdeling
                         ManagerEmployeeID: '7130'
-                        ManagersFullName: Sophia Overbeeke
-                        ManagerTask: Werken
-                        ManagerDepartmentName: Informatievoorziening
-                        ManagerDepartmentAlias: Informatievoorzienin
-                        ManagerPositionDescription: Werken bij Ymere
-                        ManagersPositionTitle: Manager Informatievoorziening
-                        ManagersPositionID: '7130'
+                        Result: OK
+                Example-Multiple Departments:
+                  value:
+                    Departments:
+                      - Department: Klantcontact
+                        SearchName: Klantcontact
+                        UnitCode: AVW_KC
+                        TypeOfUnit: Afdeling
+                        ManagerEmployeeID: ''
+                        Result: OK
+                      - Department: Risk
+                        SearchName: Risk
+                        UnitCode: AFR_Risk
+                        TypeOfUnit: Afdeling
+                        ManagerEmployeeID: ''
+                        Result: OK
+                      - Department: Vastgoedbeheer
+                        SearchName: Vastgoedbeheer
+                        UnitCode: AVGB_SO
+                        TypeOfUnit: Afdeling
+                        ManagerEmployeeID: ''
+                        Result: OK
+                      - Department: Informatievoorziening
+                        SearchName: Informatievoorzienin
+                        UnitCode: CZ_IV_01AVGB_SO
+                        TypeOfUnit: Afdeling
+                        ManagerEmployeeID: '7130'
+                        Result: OK
       operationId: get-Position-Department
-      description: Get all details of one or all Department(s)
+      description: 'Get all details of one or all Department(s), which can be used in a Position'
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                Department:
+                  type: string
+            examples:
+              Example-One Department:
+                value:
+                  Departments:
+                    - Department: Klantcontact
+              Example-Multiple Departments:
+                value:
+                  Departments:
+                    - Department: Klantcontact
+                    - Department: Risk
+                    - Department: Vastgoedbeheer
+                    - Department: Informatievoorziening
     post:
       summary: ''
       operationId: post-Position-Department
       responses:
         '200':
           description: OK
+      description: 'Change properties of a Department, which can be used in a Position'
     delete:
       summary: ''
-      operationId: delete-Position-Department
+      operationId: delete-Department
       responses:
         '200':
           description: OK
+      description: 'Delete a Department '
     parameters: []
   /Employee/Contactdetails:
     get:
@@ -2302,6 +2347,83 @@ paths:
                     - RoleID: 886351
                     - RoleID: 1437180
                     - RoleID: 1437197
+  /Title:
+    get:
+      summary: Your GET endpoint
+      tags: []
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  Title:
+                    type: string
+                  Result:
+                    type: string
+              examples:
+                Example-OK:
+                  value:
+                    Titles:
+                      - Title: Medewerker projecten
+                        Result: OK
+      operationId: get-Title
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                Title:
+                  type: string
+            examples:
+              Example-1:
+                value:
+                  Titles:
+                    - Title: Medewerker projecten
+              Example-All:
+                value:
+                  Titles:
+                    - Title: ''
+        description: 'If the Title is empty (="") then all titles will be provided.'
+      description: Get one or all titles
+    delete:
+      summary: ''
+      operationId: delete-Title
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  Title:
+                    type: string
+                  Result:
+                    type: string
+              examples:
+                Example-OK:
+                  value:
+                    Titles:
+                      - Title: Medewerker projecten
+                        Result: OK
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                Title:
+                  type: string
+            examples:
+              Example-1:
+                value:
+                  Titles:
+                    - Title: Medewerker projecten
+      description: Delete a title
 components:
   schemas:
     unauthorized_response:
