@@ -305,6 +305,8 @@ paths:
                     type: string
                   EntryName:
                     type: string
+                  SearchName:
+                    type: string
                   Title:
                     type: string
                   Gender:
@@ -314,8 +316,57 @@ paths:
                   Enddate:
                     type: string
               examples:
-                Example-One Employee: {}
-                Example-Multiple Employees: {}
+                Example-One Employee:
+                  value:
+                    Employees:
+                      - EmployeeID: '6313'
+                        Initials: E.
+                        Nickname: Eric
+                        NamePrefix: ''
+                        Lastname: Copier
+                        Salutation: meneer Copier
+                        EntryName: De heer E. Copier
+                        SearchName: 'Copier, Eric'
+                        Title: Medewerker projecten
+                        Gender: Mannelijk
+                        EmailAddress: e.copier@ymere.nl
+                        PhoneNr: 088 080 62 83
+                        MobileNR: '0647100445'
+                        StartDate: '2018-01-18'
+                        EndDate: ''
+                Example-Multiple Employees:
+                  value:
+                    Employees:
+                      - EmployeeID: '6313'
+                        Initials: E.
+                        Nickname: Eric
+                        NamePrefix: ''
+                        Lastname: Copier
+                        Salutation: meneer Copier
+                        EntryName: De heer E. Copier
+                        SearchName: 'Copier, Eric'
+                        Title: Medewerker projecten
+                        Gender: Mannelijk
+                        EmailAddress: e.copier@ymere.nl
+                        PhoneNr: 088 080 62 83
+                        MobileNR: '0647100445'
+                        StartDate: '2018-01-18'
+                        EndDate: ''
+                      - EmployeeID: '8314'
+                        Initials: P.
+                        Nickname: Paul
+                        NamePrefix: van der
+                        Lastname: Klarenbeek
+                        Salutation: meneer van der Klarenbeek
+                        EntryName: De heer P. van der Klarenbeek
+                        SearchName: 'Klarenbeek, Paul van der'
+                        Title: Wijkbeheerder
+                        Gender: Mannelijk
+                        EmailAddress: p.van.der.Klarenbeek@ymere.nl
+                        PhoneNr: 088 080 62 62
+                        MobileNR: 0684573545
+                        StartDate: '2019-01-18'
+                        EndDate: ''
       operationId: get-Employee
       description: Get the properties of one Employee or a selection of Employees
       requestBody:
