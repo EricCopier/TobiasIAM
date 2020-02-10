@@ -387,7 +387,7 @@ paths:
                 - Title
                 - Gender
                 - EndDate
-        description: ''
+        description: "If a Title is not availalable, an error message is returned. \nIf contactdetails are provided, the next values have to be set as default:\nEmailaddress: Type = \"E-mailadres\", Contactnummer/-adres = <Emailaddress>, Primair = True, Prive = False\nMobileNR: Type = \"Telefoon mobiel\", Contactnummer/-adres = <MobileNR>, Primair = True, Prive = False\nPhoneNR: Type = \"Telefoon\", Contactnummer/-adres = <PhoneNR>, Primair = True, Prive = False\nOmschrijving and Toestel will be empty."
       description: Insert a new Employee with his properties
     put:
       summary: ''
