@@ -798,6 +798,8 @@ paths:
                       EndDate: '2154-12-31'
                       ManagerEmployeeID: '7130'
                       EmployeeID: '6313'
+        description: 'When a EmployeeID is provided, the following is rule is valid: If AssignmentStartDate or AssignmentEndDate are empty or not provided, then the PositionStartDate and PositionEndDate will be used for these fields. AssignmentPrimary is default 1. In this case the PositionStartDate and PositionEndDate and the default value will be used, because these fields are not provided in the Schema below. Better is to use the Position/Employee for filling the correct values of these fields.'
+      description: Insert a new Position
     put:
       summary: ''
       operationId: put-Position
@@ -874,6 +876,7 @@ paths:
                       EndDate: '2154-12-31'
                       ManagerEmployeeID: '7130'
                       EmployeeID: '6313'
+        description: 'When a EmployeeID is provided, the following is rule is valid: If AssignmentStartDate or AssignmentEndDate are empty or not provided, then the PositionStartDate and PositionEndDate will be used for these fields. AssignmentPrimary is default 1. In this case the PositionStartDate and PositionEndDate and the default value will be used, because these fields are not provided in the Schema below. Better is to use the Position/Employee for filling the correct values of these fields.'
     delete:
       summary: ''
       operationId: delete-Position
@@ -905,6 +908,7 @@ paths:
                   type: string
               required:
                 - PositionID
+      description: Delete a position (Is this possible? Probably only when a position is created by mistake)
   /User/DisableEnable:
     put:
       summary: ''
@@ -1536,6 +1540,7 @@ paths:
                   Position:
                     - PositionID: '6313'
                       EndDate: 30-06-2020
+      description: 'End the Position. This will also mean that the Employee will not be assigned anymore, so an EndDate will be set at the assignment of the Employee to this position'
   /Position/Manager:
     get:
       summary: Your GET endpoint
@@ -1641,7 +1646,7 @@ paths:
                   Position:
                     - PositionID: '6313'
                       ManagerEmployeeID: '7130'
-      description: Replace a manager of a position
+      description: Replace the manager as a manager of a position
     delete:
       summary: ''
       operationId: delete-Position-Manager
