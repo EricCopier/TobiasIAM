@@ -364,11 +364,11 @@ paths:
                         Gender: Mannelijk
                         EmailAddress: p.van.der.Klarenbeek@ymere.nl
                         PhoneNr: 088 080 62 62
-                        MobileNR: 0684573545
+                        MobileNR: 684573545
                         StartDate: '2019-01-18'
                         EndDate: ''
       operationId: get-Employee
-      description: Get the properties of one Employee or a selection of Employees
+      description: "Get the properties of one Employee or a selection of Employees\n\nProposed SQL Code:\nSELECT   H.PERSONNELNUMBER AS EmployeeID \n\t\t,ISNULL(mdwDPT.INITIALS, '') AS Initials\n\t\t,P.FIRSTNAME AS Nickname\n\t\t,P.MIDDLENAME AS NamePrefix\n\t\t,P.LASTNAME AS Lastname\n\t\t,P.AR_INTRODUCTORY AS Salutation\n\t\t,P.AR_INTRODUCTORYNAME AS EntryName \n\t\t,P.LASTNAME + ', ' + RTRIM(P.FIRSTNAME + ' ' + ISNULL(P.MIDDLENAME, ''))  AS SearchName\n\t\t,WT.TITLEID AS Title\n\t\t,CASE mdwDPT.GENDER WHEN 1 THEN 'Mannelijk' WHEN 2 THEN 'Vrouwelijk' WHEN NULL \n\t\t\t\t\t\t\t\t\tTHEN 'Niet ingevuld' ELSE 'Onbekend' END AS Gender\n        ,CASE WHEN ISNULL(mdwDPT.PRIMARYCONTACTEMAIL, 0) <> 0 THEN\n            (SELECT        T3.LOCATOR\n            FROM            [IAM].[Tobias_AX_Prod].[dbo].[DMSDIRPARTYCOMMUNICATIONSVIEW] T3\n            WHERE        T3.RECID = mdwDPT.PRIMARYCONTACTEMAIL) ELSE '' END AS EmailAddress\n\t\t,CASE WHEN ISNULL(mdwDPT.PRIMARYCONTACTPHONE, 0) <> 0 THEN\n            (SELECT        T3.LOCATOR\n            FROM            [IAM].[Tobias_AX_Prod].[dbo].[DMSDIRPARTYCOMMUNICATIONSVIEW] T3\n            WHERE        T3.RECID = mdwDPT.PRIMARYCONTACTPHONE) ELSE '' END AS PhoneNr\n\t\t,CASE WHEN ISNULL(mdwDPT.AR_PRIMARYCONTACTMOBILEPHONE, 0) <> 0 THEN\n            (SELECT        T3.LOCATOR\n            FROM            [IAM].[Tobias_AX_Prod].[dbo].[DMSDIRPARTYCOMMUNICATIONSVIEW] T3\n            WHERE        T3.RECID = mdwDPT.AR_PRIMARYCONTACTMOBILEPHONE) ELSE '' END AS MobileNR\n\t\t, '2018-01-18' as StartDate\n\t\t, '' as EndDate\nFROM            IAM.Tobias_AX_Prod.dbo.HCMWORKER AS H\nINNER JOIN IAM.Tobias_AX_Prod.dbo.HCMWORKERTITLE AS HWT ON HWT.PARTITION = H.PARTITION AND HWT.WORKER = H.RECID\nINNER JOIN IAM.Tobias_AX_Prod.dbo.HCMTITLE AS WT ON WT.RECID = HWT.TITLE AND WT.PARTITION = HWT.PARTITION\nLEFT OUTER JOIN IAM.Tobias_AX_Prod.dbo.HCMPOSITIONWORKERASSIGNMENT AS PW ON PW.PARTITION = H.PARTITION AND PW.WORKER = H.RECID\nLEFT OUTER JOIN IAM.Tobias_AX_Prod.dbo.DIRPERSONNAME AS P ON P.PARTITION = H.PARTITION AND P.PERSON = H.PERSON\nLEFT OUTER JOIN IAM.Tobias_AX_Prod.dbo.dirpartytable AS mdwDPT ON mdwDPT.PARTITION = H.PARTITION AND mdwDPT.RECID = H.PERSON\nWHERE        (PW.VALIDFROM < GETDATE()) AND (PW.VALIDTO > GETDATE()) AND (HWT.VALIDFROM <= GETDATE()) AND (HWT.VALIDTO >= GETDATE()) AND (P.VALIDFROM < GETDATE()) AND (P.VALIDTO > GETDATE())\nAnd H.PERSONNELNUMBER = '6313'\tFOR JSON PATH, ROOT('Employee')"
       requestBody:
         content:
           application/json:
@@ -381,7 +381,7 @@ paths:
               Example-One Employee:
                 value:
                   Employees:
-                    - EmployeeID: 6351
+                    - EmployeeID: 6313
               Example-Multiple Employees:
                 value:
                   Employees:
@@ -498,6 +498,31 @@ paths:
       responses:
         '200':
           description: OK
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  EmployeeID:
+                    type: string
+                  Result:
+                    type: string
+              examples:
+                Example-Employee updated:
+                  value:
+                    Employees:
+                      - EmployeeID: '6313'
+                        Result: OK
+                Example-Title does not exists:
+                  value:
+                    Employees:
+                      - EmployeeID: '6313'
+                        Result: Title does not exists
+                Example-EmployeeID does not exists:
+                  value:
+                    Employees:
+                      - EmployeeID: '6313'
+                        Result: EmployeeID does not exists
       description: To update one or more properties of an Employee. Only the provided properties will be updated. The rest of the properties will remain the same.
       requestBody:
         content:
@@ -519,6 +544,8 @@ paths:
                   type: string
                 EntryName:
                   type: string
+                SearchName:
+                  type: string
                 Title:
                   type: string
                 Gender:
@@ -529,6 +556,15 @@ paths:
                   type: string
               required:
                 - EmployeeID
+            examples:
+              Example-Update Employee:
+                value:
+                  Employees:
+                    - EmployeeID: '6313'
+                      Initials: E.
+                      Nickname: Eric
+                      Lastname: Copier
+                      Title: Medewerker projecten
         description: 'Only the provided properties will be updated. Beneath is a complete list of all the properties that can be provided, but only the EmployeeID is mandatory. If a properties is not provided, the value will remain the same.'
   /Position:
     get:
@@ -898,6 +934,47 @@ paths:
       responses:
         '200':
           description: OK
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  EmployeeID:
+                    type: string
+                  Result:
+                    type: string
+              examples:
+                Example-Employee Ended:
+                  value:
+                    EmployeesEnding:
+                      - EmployeeID: '6313'
+                        Result: OK
+                Example-EmployeeID does not exists:
+                  value:
+                    EmployeesEnding:
+                      - EmployeeID: '6313'
+                        Result: EmployeeID does not exists
+      description: Set the enddate of the Employment
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                EmployeeID:
+                  type: string
+                EndDate:
+                  type: string
+                  description: |-
+                    EmploymentDuration_ValidTo
+                    HcmEmployment(HcmEmployment).ValidTo
+            examples:
+              Example-One Employee:
+                value:
+                  EmployeesEnding:
+                    - EmployeeID: '6313'
+                      EndDate: '2020-03-31'
+        description: ''
   /Position/Ending:
     put:
       summary: ''
@@ -965,14 +1042,162 @@ paths:
     get:
       summary: Your GET endpoint
       tags: []
-      responses: {}
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  EmployeeID:
+                    type: string
+                  ContactType:
+                    type: string
+                  ContactNRorAddress:
+                    type: string
+                  Primary:
+                    type: string
+                  Private:
+                    type: string
+                  Description:
+                    type: string
+                  Extension:
+                    type: string
+              examples:
+                Example-One Employee-3 contactdetails:
+                  value:
+                    EmployeesContactDetails:
+                      - EmployeeID: '6313'
+                        ContactType: E-mailadres
+                        ContactNRorAddress: e.copier@ymere.nl
+                        Primary: 1
+                        Private: 0
+                        Description: ''
+                        Extension: ''
+                      - EmployeeID: '6313'
+                        ContactType: Telefoon
+                        ContactNRorAddress: 088 080 62 83
+                        Primary: 1
+                        Private: 0
+                        Description: ''
+                        Extension: ''
+                      - EmployeeID: '6313'
+                        ContactType: Telefoon mobiel
+                        ContactNRorAddress: '0647100445'
+                        Primary: 1
+                        Private: 0
+                        Description: ''
+                        Extension: ''
       operationId: get-Employee-Contactdetails
+      description: Get the contactdetails of an Employee
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                EmployeeID:
+                  type: string
+            examples:
+              Example-One Employee:
+                value:
+                  EmployeesContactDetails:
+                    - EmployeeID: 6313
+              Example-Multiple Employees:
+                value:
+                  EmployeesContactDetails:
+                    - EmployeeID: 6313
+                    - EmployeeID: 8314
     post:
       summary: ''
       operationId: post-Employee-Contactdetails
       responses:
         '200':
           description: OK
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  EmployeeID:
+                    type: string
+                  ContactType:
+                    type: string
+                  ContactNRorAddress:
+                    type: string
+                  Result:
+                    type: string
+              examples:
+                Example-One Employee-3 contactdetails:
+                  value:
+                    EmployeesContactDetails:
+                      - EmployeeID: '6313'
+                        ContactType: E-mailadres
+                        ContactNRorAddress: e.copier@ymere.nl
+                        Result: OK
+                      - EmployeeID: '6313'
+                        ContactType: Telefoon
+                        ContactNRorAddress: 088 080 62 83
+                        Result: ContactNR or Address does already exists
+                      - EmployeeID: '6313'
+                        ContactType: Telefoon mobiel
+                        ContactNRorAddress: '0647100445'
+                        Result: Employee not found
+      description: |-
+        If contactdetails are provided, the next values have to be set as default:
+              Emailaddress: Type = "E-mailadres", Contactnummer/-adres = <Emailaddress>, Primair = True, Prive = False
+              MobileNR: Type = "Telefoon mobiel", Contactnummer/-adres = <MobileNR>, Primair = True, Prive = False
+              PhoneNR: Type = "Telefoon", Contactnummer/-adres = <PhoneNR>, Primair = True, Prive = False
+             Omschrijving and Toestel will be empty.
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                EmployeeID:
+                  type: string
+                ContactType:
+                  type: string
+                ContactNRorAddress:
+                  type: string
+                Primary:
+                  type: string
+                Private:
+                  type: string
+                Description:
+                  type: string
+                Extension:
+                  type: string
+              required:
+                - EmployeeID
+                - ContactType
+                - ContactNRorAddress
+                - Primary
+                - Private
+            examples:
+              Example-One Employee-3 contactdetails:
+                value:
+                  EmployeesContactDetails:
+                    - EmployeeID: '6313'
+                      ContactType: E-mailadres
+                      ContactNRorAddress: e.copier@ymere.nl
+                      Primary: 1
+                      Private: 0
+                    - EmployeeID: '6313'
+                      ContactType: Telefoon
+                      ContactNRorAddress: 088 080 62 83
+                      Primary: 1
+                      Private: 0
+                      Description: Skype telefoonnummer
+                      Extension: '6283'
+                    - EmployeeID: '6313'
+                      ContactType: Telefoon mobiel
+                      ContactNRorAddress: '0647100445'
+                      Primary: 1
+                      Private: 0
+        description: ''
     delete:
       summary: ''
       operationId: delete-Employee-Contactdetails
