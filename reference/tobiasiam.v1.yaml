@@ -638,6 +638,10 @@ paths:
                     type: string
                   PositionTitle:
                     type: string
+                  StartDate:
+                    type: string
+                  EndDate:
+                    type: string
                   ManagerEmployeeID:
                     type: string
                   ManagerFullName:
@@ -654,6 +658,10 @@ paths:
                     type: string
                   ManagerPositionID:
                     type: string
+                  Result:
+                    type: string
+                required:
+                  - PositionID
               examples:
                 Example-One position:
                   value:
@@ -664,6 +672,8 @@ paths:
                         DepartmentAlias: Concernzaken
                         PositionDescription: Werken bij Ymere
                         PositionTitle: Medewerker projecten
+                        StartDate: '2018-12-28'
+                        EndDate: '2154-12-31'
                         ManagerEmployeeID: '7130'
                         ManagersFullName: Sophia Overbeeke
                         ManagerTask: Werken
@@ -672,26 +682,229 @@ paths:
                         ManagerPositionDescription: Werken bij Ymere
                         ManagersPositionTitle: Manager Informatievoorziening
                         ManagersPositionID: '7130'
+                        Result: OK
+                Example-Not Found:
+                  value:
+                    Position:
+                      - PositionID: '6313'
+                        Result: Position not found
+                Example-Expired:
+                  value:
+                    Position:
+                      - PositionID: '6313'
+                        Task: Werken
+                        DepartmentName: Concernzaken
+                        DepartmentAlias: Concernzaken
+                        PositionDescription: Werken bij Ymere
+                        PositionTitle: Medewerker projecten
+                        StartDate: '2018-12-28'
+                        EndDate: '2019-12-31'
+                        ManagerEmployeeID: '7130'
+                        ManagersFullName: Sophia Overbeeke
+                        ManagerTask: Werken
+                        ManagerDepartmentName: Informatievoorziening
+                        ManagerDepartmentAlias: Informatievoorzienin
+                        ManagerPositionDescription: Werken bij Ymere
+                        ManagersPositionTitle: Manager Informatievoorziening
+                        ManagersPositionID: '7130'
+                        Result: 'Position is expired, past the EndDate'
       operationId: get-Position
       description: "Get the properties of a position\n\nProposed SQL Code:\nSELECT  -- H.PERSONNELNUMBER AS EmployeeID\n\t\t--,mdwDPT.NAME AS mdw_SamengesteldeNaam\n\t\tPOSD.POSITIONID AS PositionID\n\t\t,POSD.JOBID AS Task\n\t\t,POSD.NAME AS DepartmentName\n\t\t,POSD.NAMEALIAS AS DepartmentAlias\n\t\t,POSD.DESCRIPTION AS PositionDescription\n\t\t,POSD.TITLEID AS PositionTitle\n\t\t,Hmgr.PERSONNELNUMBER AS ManagerEmployeeID\n\t\t,Pmgr.FIRSTNAME + ' ' + LTRIM(Pmgr.MIDDLENAME + ' ' + Pmgr.LASTNAME) AS ManagersFullName\n\t\t,mgrPOSD.JOBID AS ManagerTask\n\t\t,mgrPOSD.NAME AS ManagerDepartmentName\n\t\t,mgrPOSD.NAMEALIAS AS ManagerDepartmentAlias\n\t\t,mgrPOSD.DESCRIPTION AS ManagerPositionDescription\n\t\t,mgrPOSD.TITLEID AS ManagersPositionTitle\n\t\t,mgrPOSD.POSITIONID AS ManagersPositionID\nFROM    --IAM.Tobias_AX_Prod.dbo.HCMWORKER AS H\n--LEFT OUTER JOIN \nIAM.Tobias_AX_Prod.dbo.HCMPOSITIONWORKERASSIGNMENT AS PW\t\t--ON PW.PARTITION = H.PARTITION AND PW.WORKER = H.RECID\n--LEFT OUTER JOIN IAM.Tobias_AX_Prod.dbo.dirpartytable AS mdwDPT ON mdwDPT.PARTITION = H.PARTITION AND mdwDPT.RECID = H.PERSON\nLEFT OUTER JOIN (SELECT        PD.POSITION, PD.JOB, J.JOBID, PD.DEPARTMENT, D.NAME, D.NAMEALIAS, PD.DESCRIPTION, PD.TITLE, T.TITLEID, PD.PARTITION, PD.RECID, D.PARTYNUMBER, ISNULL(PH.PARENTPOSITION, '') \n                                                         AS PARENTPOSITION, P.POSITIONID\n                               FROM            IAM.Tobias_AX_Prod.dbo.HCMPOSITIONDETAIL AS PD INNER JOIN\n                                                         IAM.Tobias_AX_Prod.dbo.HCMPOSITION AS P ON P.PARTITION = PD.PARTITION AND P.RECID = PD.POSITION INNER JOIN\n                                                         IAM.Tobias_AX_Prod.dbo.HCMJOB AS J ON J.RECID = PD.JOB AND J.PARTITION = PD.PARTITION LEFT OUTER JOIN\n                                                         IAM.Tobias_AX_Prod.dbo.HCMTITLE AS T ON T.RECID = PD.TITLE AND T.PARTITION = PD.PARTITION LEFT OUTER JOIN\n                                                         IAM.Tobias_AX_Prod.dbo.dirpartytable AS D ON D.RECID = PD.DEPARTMENT AND D.PARTITION = PD.PARTITION LEFT OUTER JOIN\n                                                         IAM.Tobias_AX_Prod.dbo.HCMPOSITIONHIERARCHY AS PH ON PH.PARTITION = P.PARTITION AND PH.POSITION = P.RECID\n                               WHERE        (PD.VALIDFROM <= GETDATE()) AND (PD.VALIDTO >= GETDATE()) AND (PH.VALIDFROM <= GETDATE()) AND (PH.VALIDTO >= GETDATE()))\n\t\t\t\t AS POSD ON POSD.PARTITION = PW.PARTITION AND POSD.POSITION = PW.POSITION\nLEFT OUTER JOIN (SELECT        POSITION, WORKER, PARTITION, RECID\n                               FROM            IAM.Tobias_AX_Prod.dbo.HCMPOSITIONWORKERASSIGNMENT AS HCMPOSITIONWORKERASSIGNMENT_1\n                               WHERE        (VALIDFROM <= GETDATE()) AND (VALIDTO >= GETDATE()))\n\t\t\t\t AS PWmgr ON PWmgr.PARTITION = PW.PARTITION AND PWmgr.POSITION = POSD.PARENTPOSITION\nLEFT OUTER JOIN IAM.Tobias_AX_Prod.dbo.HCMWORKER AS Hmgr ON Hmgr.PARTITION = PW.PARTITION AND Hmgr.RECID = PWmgr.WORKER\nLEFT OUTER JOIN IAM.Tobias_AX_Prod.dbo.DIRPERSONNAME AS Pmgr ON Pmgr.PARTITION = Hmgr.PARTITION AND Pmgr.PERSON = Hmgr.PERSON\nLEFT OUTER JOIN (SELECT        PD.POSITION, PD.JOB, J.JOBID, PD.DEPARTMENT, D.NAME, D.NAMEALIAS, PD.DESCRIPTION, PD.TITLE, T.TITLEID, PD.PARTITION, PD.RECID, D.PARTYNUMBER, ISNULL(PH.PARENTPOSITION, '') \n                                                         AS PARENTPOSITION, P.POSITIONID\n                               FROM            IAM.Tobias_AX_Prod.dbo.HCMPOSITIONDETAIL AS PD INNER JOIN\n                                                         IAM.Tobias_AX_Prod.dbo.HCMPOSITION AS P ON P.PARTITION = PD.PARTITION AND P.RECID = PD.POSITION INNER JOIN\n                                                         IAM.Tobias_AX_Prod.dbo.HCMJOB AS J ON J.RECID = PD.JOB AND J.PARTITION = PD.PARTITION INNER JOIN\n                                                         IAM.Tobias_AX_Prod.dbo.HCMTITLE AS T ON T.RECID = PD.TITLE AND T.PARTITION = PD.PARTITION INNER JOIN\n                                                         IAM.Tobias_AX_Prod.dbo.dirpartytable AS D ON D.RECID = PD.DEPARTMENT AND D.PARTITION = PD.PARTITION LEFT OUTER JOIN\n                                                         IAM.Tobias_AX_Prod.dbo.HCMPOSITIONHIERARCHY AS PH ON PH.PARTITION = PD.PARTITION AND PH.POSITION = P.RECID\n                               WHERE        (PD.VALIDFROM <= GETDATE()) AND (PD.VALIDTO >= GETDATE()) AND (PH.VALIDFROM <= GETDATE()) AND (PH.VALIDTO >= GETDATE()))\n\t\t\t\t AS mgrPOSD ON mgrPOSD.PARTITION = PW.PARTITION AND mgrPOSD.POSITION = PWmgr.POSITION\nWHERE        (PW.VALIDFROM < GETDATE()) AND (PW.VALIDTO > GETDATE()) AND  \n                         (Pmgr.VALIDFROM < GETDATE()) AND (Pmgr.VALIDTO > GETDATE())\nAnd POSD.POSITIONID = '6313'\tFOR JSON PATH, ROOT('Position')\n"
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                PositionID:
+                  type: string
+              required:
+                - PositionID
     post:
       summary: ''
       operationId: post-Position
       responses:
         '200':
           description: OK
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  PositionID:
+                    type: string
+                  Result:
+                    type: string
+              examples:
+                Example-OK:
+                  value:
+                    Position:
+                      - PositionID: '6313'
+                        Result: OK
+                Example-PositionID already Exists:
+                  value:
+                    Position:
+                      - PositionID: '6313'
+                        Result: PositionID already Exists
+                Example-Manager not found:
+                  value:
+                    Position:
+                      - PositionID: '6313'
+                        Result: Manager not found
+                example-StartDate and/or Enddate not correct:
+                  value:
+                    Position:
+                      - PositionID: '6313'
+                        Result: Startdate empty or Enddate before systemdate or Startdate
+                Example-Employee not found:
+                  value:
+                    Position:
+                      - PositionID: '6313'
+                        Result: Employee not found
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                PositionID:
+                  type: string
+                Task:
+                  type: string
+                DepartmentName:
+                  type: string
+                PositionDescription:
+                  type: string
+                PositionTitle:
+                  type: string
+                StartDate:
+                  type: string
+                EndDate:
+                  type: string
+                ManagerEmployeeID:
+                  type: string
+                EmployeeID:
+                  type: string
+            examples:
+              Example-One Position and Employee:
+                value:
+                  Position:
+                    - PositionID: '6313'
+                      Task: Werken
+                      DepartmentName: Concernzaken
+                      PositionDescription: Werken bij Ymere
+                      PositionTitle: Medewerker projecten
+                      StartDate: '2018-12-28'
+                      EndDate: '2154-12-31'
+                      ManagerEmployeeID: '7130'
+                      EmployeeID: '6313'
     put:
       summary: ''
       operationId: put-Position
       responses:
         '200':
           description: OK
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  PositionID:
+                    type: string
+                  Result:
+                    type: string
+              examples:
+                Example-OK:
+                  value:
+                    Position:
+                      - PositionID: '6313'
+                        Result: OK
+                Example-anager not found:
+                  value:
+                    Position:
+                      - PositionID: '6313'
+                        Result: Manager not found
+                example-StartDate and/or Enddate not correct:
+                  value:
+                    Position:
+                      - PositionID: '6313'
+                        Result: Startdate empty or Enddate before systemdate or Startdate
+                Example-Employee not found:
+                  value:
+                    Position:
+                      - PositionID: '6313'
+                        Result: Employee not found
+      description: Update one or more properties of a position
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                PositionID:
+                  type: string
+                Task:
+                  type: string
+                DepartmentName:
+                  type: string
+                PositionDescription:
+                  type: string
+                PositionTitle:
+                  type: string
+                StartDate:
+                  type: string
+                EndDate:
+                  type: string
+                ManagerEmployeeID:
+                  type: string
+                EmployeeID:
+                  type: string
+              required:
+                - PositionID
+            examples:
+              example-Update one or more properties:
+                value:
+                  Position:
+                    - PositionID: '6313'
+                      Task: Werken
+                      DepartmentName: Concernzaken
+                      PositionDescription: Werken bij Ymere
+                      PositionTitle: Medewerker projecten
+                      StartDate: '2018-12-28'
+                      EndDate: '2154-12-31'
+                      ManagerEmployeeID: '7130'
+                      EmployeeID: '6313'
     delete:
       summary: ''
       operationId: delete-Position
       responses:
         '200':
           description: OK
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  PositionID:
+                    type: string
+                  Result:
+                    type: string
+              examples:
+                Example-OK:
+                  value:
+                    Position:
+                      - PositionID: '6313'
+                        Result: OK
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                PositionID:
+                  type: string
+              required:
+                - PositionID
   /User/DisableEnable:
     put:
       summary: ''
@@ -1282,42 +1495,339 @@ paths:
       responses:
         '200':
           description: OK
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  PositionID:
+                    type: string
+                  Result:
+                    type: string
+              examples:
+                Example-OK:
+                  value:
+                    Position:
+                      - PositionID: '6313'
+                        Result: OK
+                Example-Not Found:
+                  value:
+                    Position:
+                      - PositionID: '6313'
+                        Result: Position not found
+                Example-Enddate before Startdate:
+                  value:
+                    Position:
+                      - PositionID: '6313'
+                        Result: EndDate before StartDate
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                PositionID:
+                  type: string
+                EndDate:
+                  type: string
+            examples:
+              Example-one Position:
+                value:
+                  Position:
+                    - PositionID: '6313'
+                      EndDate: 30-06-2020
   /Position/Manager:
     get:
       summary: Your GET endpoint
       tags: []
-      responses: {}
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  PositionID:
+                    type: string
+                  ManagerEmployeeID:
+                    type: string
+                  ManagerFullName:
+                    type: string
+                  ManagerTask:
+                    type: string
+                  ManagerDepartmentName:
+                    type: string
+                  ManagerDepartmentAlias:
+                    type: string
+                  ManagerPositionDescription:
+                    type: string
+                  ManagerPositionTitle:
+                    type: string
+                  ManagerPositionID:
+                    type: string
+                  Result:
+                    type: string
+              examples:
+                Example-OK:
+                  value:
+                    Position:
+                      - PositionID: '6313'
+                        ManagerEmployeeID: '7130'
+                        ManagersFullName: Sophia Overbeeke
+                        ManagerTask: Werken
+                        ManagerDepartmentName: Informatievoorziening
+                        ManagerDepartmentAlias: Informatievoorzienin
+                        ManagerPositionDescription: Werken bij Ymere
+                        ManagersPositionTitle: Manager Informatievoorziening
+                        ManagersPositionID: '7130'
+                        Result: OK
+                Example-No Manager:
+                  value:
+                    Position:
+                      - PositionID: '6313'
+                        Result: No manager assigned to this position
       operationId: get-Position-Manager
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                PositionID:
+                  type: string
+              required:
+                - PositionID
+      description: Get the manager of a position
     put:
       summary: ''
       operationId: put-Position-Manager
       responses:
         '200':
           description: OK
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  PositionID:
+                    type: string
+                  Result:
+                    type: string
+              examples:
+                Example-OK:
+                  value:
+                    Position:
+                      - PositionID: '6313'
+                        Result: OK
+                Example-Manager not found:
+                  value:
+                    Position:
+                      - PositionID: '6313'
+                        Result: Manager not found
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                PositionID:
+                  type: string
+                ManagerEmployeeID:
+                  type: string
+            examples:
+              Example-Manager:
+                value:
+                  Position:
+                    - PositionID: '6313'
+                      ManagerEmployeeID: '7130'
+      description: Replace a manager of a position
     delete:
       summary: ''
       operationId: delete-Position-Manager
       responses:
         '200':
           description: OK
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  PositionID:
+                    type: string
+                  Result:
+                    type: string
+              examples:
+                Example-OK:
+                  value:
+                    Position:
+                      - PositionID: '6313'
+                        Result: OK
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                PositionID:
+                  type: string
+            examples:
+              Example-1:
+                value:
+                  Position:
+                    - PositionID: '6313'
+        description: ''
+      description: Remove a manager as manager from a position
   /Position/Employee:
     get:
       summary: Your GET endpoint
       tags: []
-      responses: {}
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  PositionID:
+                    type: string
+                  PositionTitle:
+                    type: string
+                  PositionStartDate:
+                    type: string
+                  PositionEndDate:
+                    type: string
+                  EmployeeID:
+                    type: string
+                  SearchName:
+                    type: string
+                  AssignmentStartDate:
+                    type: string
+                  AssignmentEndDate:
+                    type: string
+                  AssignmentPrimary:
+                    type: string
+                  Result:
+                    type: string
+              examples:
+                Example-OK:
+                  value:
+                    Position:
+                      - PositionID: '6313'
+                        PositionTitle: Medewerker projecten
+                        PositionStartDate: '2018-12-28'
+                        PositionEndDate: '2154-12-31'
+                        EmployeeID: '6313'
+                        SearchName: 'Copier, Eric'
+                        AssignmentStartDate: '2018-12-28'
+                        AssignmentEndDate: '2154-12-31'
+                        AssignmentPrimary: 0
+                        Result: OK
       operationId: get-Position-Employee
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                PositionID:
+                  type: string
+              required:
+                - PositionID
+            examples:
+              Example-1:
+                value:
+                  Position:
+                    - PositionID: '6313'
+      description: Get the Employee(s) assigned to this position. Multiple Employees can be assigned to this position. So give them all.
     delete:
       summary: ''
       operationId: delete-Position-Employee
       responses:
         '200':
           description: OK
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  PositionID:
+                    type: string
+                  EmployeeID:
+                    type: string
+                  Result:
+                    type: string
+              examples:
+                Example-OK:
+                  value:
+                    Position:
+                      - PositionID: '6313'
+                        EmployeeID: '6313'
+                        Result: OK
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                PositionID:
+                  type: string
+                EmployeeID:
+                  type: string
+        description: ''
+      description: Delete the assigment of an Employee on a Position (is this possible?)
     post:
       summary: ''
       operationId: post-Position-Employee
       responses:
         '200':
           description: OK
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  PositionID:
+                    type: string
+                  Result:
+                    type: string
+              examples:
+                Example-OK:
+                  value:
+                    Position:
+                      - PositionID: '6313'
+                        Result: OK
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                PositionID:
+                  type: string
+                EmployeeID:
+                  type: string
+                AssignmentStartDate:
+                  type: string
+                AssignmentEndDate:
+                  type: string
+                AssignmentPrimary:
+                  type: integer
+              required:
+                - PositionID
+                - EmployeeID
+            examples:
+              Example-1:
+                value:
+                  Position:
+                    - PositionID: '6313'
+                      EmployeeID: '6313'
+                      AssignmentStartDate: '2018-12-28'
+                      AssignmentEndDate: '2154-12-31'
+                      AssignmentPrimary: 0
+        description: 'If AssignmentStartDate or AssignmentEndDate are empty or not provided, then the PositionStartDate and PositionEndDate will be used for these fields. AssignmentPrimary is default 1.'
+      description: Change the properties of an assignment of an Employee on a Position
   /Department:
     get:
       summary: Your GET endpoint
