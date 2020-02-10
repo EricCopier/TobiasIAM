@@ -21,8 +21,6 @@ paths:
     parameters: []
     get:
       summary: Tobias User Endpoints
-      tags:
-        - Tobias User Endpoints
       responses:
         '200':
           description: OK
@@ -181,6 +179,9 @@ paths:
       security:
         - API Key - 1: []
       parameters: []
+      tags:
+        - TobiasIAM
+        - User
     post:
       summary: ''
       operationId: post-User
@@ -257,7 +258,8 @@ paths:
               properties: {}
         description: All properties for inserting a user in Tobias AX
       tags:
-        - Tobias User Endpoints
+        - TobiasIAM
+        - User
     delete:
       summary: ''
       operationId: delete-User
@@ -327,10 +329,15 @@ paths:
                     - SamAccountName: a.grudzien_ym
                       Domain: asp.local
         description: ''
+      tags:
+        - TobiasIAM
+        - User
   /Employee:
     get:
       summary: Your GET endpoint
-      tags: []
+      tags:
+        - TobiasIAM
+        - Employee
       responses:
         '200':
           description: OK
@@ -540,6 +547,9 @@ paths:
                 PhoneNR: Type = "Telefoon", Contactnummer/-adres = <PhoneNR>, Primair = True, Prive = False
                Omschrijving and Toestel will be empty.
       description: Insert a new Employee with his properties
+      tags:
+        - TobiasIAM
+        - Employee
     put:
       summary: ''
       operationId: put-Employee
@@ -614,10 +624,15 @@ paths:
                       Lastname: Copier
                       Title: Medewerker projecten
         description: 'Only the provided properties will be updated. Beneath is a complete list of all the properties that can be provided, but only the EmployeeID is mandatory. If a properties is not provided, the value will remain the same.'
+      tags:
+        - TobiasIAM
+        - Employee
   /Position:
     get:
       summary: Your GET endpoint
-      tags: []
+      tags:
+        - TobiasIAM
+        - Position
       responses:
         '200':
           description: OK
@@ -806,6 +821,9 @@ paths:
                       EmployeeID: '6313'
         description: 'When a EmployeeID is provided, the following is rule is valid: If AssignmentStartDate or AssignmentEndDate are empty or not provided, then the PositionStartDate and PositionEndDate will be used for these fields. AssignmentPrimary is default 1. In this case the PositionStartDate and PositionEndDate and the default value will be used, because these fields are not provided in the Schema below. Better is to use the Position/Employee for filling the correct values of these fields.'
       description: Insert a new Position
+      tags:
+        - TobiasIAM
+        - Position
     put:
       summary: ''
       operationId: put-Position
@@ -883,6 +901,9 @@ paths:
                       ManagerEmployeeID: '7130'
                       EmployeeID: '6313'
         description: 'When a EmployeeID is provided, the following is rule is valid: If AssignmentStartDate or AssignmentEndDate are empty or not provided, then the PositionStartDate and PositionEndDate will be used for these fields. AssignmentPrimary is default 1. In this case the PositionStartDate and PositionEndDate and the default value will be used, because these fields are not provided in the Schema below. Better is to use the Position/Employee for filling the correct values of these fields.'
+      tags:
+        - TobiasIAM
+        - Position
     delete:
       summary: ''
       operationId: delete-Position
@@ -920,6 +941,9 @@ paths:
                   Position:
                     - PositionID: '6313'
       description: Delete a position (Is this possible? Probably only when a position is created by mistake)
+      tags:
+        - TobiasIAM
+        - Position
   /User/DisableEnable:
     put:
       summary: ''
@@ -1002,10 +1026,17 @@ paths:
                     - SAMAccountName: a.schalkwijk.froe_ym
                       Domain: asp.local
                       Enable: 1
+      tags:
+        - TobiasIAM
+        - User
+        - DisableEnable
   /user/Role:
     get:
       summary: Your GET endpoint
-      tags: []
+      tags:
+        - TobiasIAM
+        - User
+        - Role
       responses:
         '200':
           description: OK
@@ -1174,6 +1205,10 @@ paths:
                 - Domain
                 - RoleID
         description: Supply the key-fields for the user and the role.
+      tags:
+        - TobiasIAM
+        - User
+        - Role
     delete:
       summary: ''
       operationId: delete-user-Role
@@ -1218,10 +1253,17 @@ paths:
                 - Domain
                 - RoleID
         description: Supply the key-fields for the user and the role.
+      tags:
+        - TobiasIAM
+        - User
+        - Role
   /User/Employee:
     get:
       summary: Your GET endpoint
-      tags: []
+      tags:
+        - TobiasIAM
+        - User
+        - Employee
       responses:
         '200':
           description: OK
@@ -1360,6 +1402,10 @@ paths:
                     - SamAccountName: a.grudzien_ym
                       Domain: asp.local
                       EmployeeID: '4148'
+      tags:
+        - TobiasIAM
+        - User
+        - Employee
     delete:
       summary: ''
       operationId: delete-User-EmployeeRelation
@@ -1434,6 +1480,10 @@ paths:
                     - SamAccountName: a.grudzien_ym
                       Domain: asp.local
                       EmployeeID: '4148'
+      tags:
+        - TobiasIAM
+        - User
+        - Employee
     parameters: []
   /Employee/Ending:
     put:
@@ -1483,6 +1533,10 @@ paths:
                     - EmployeeID: '6313'
                       EndDate: '2020-03-31'
         description: ''
+      tags:
+        - TobiasIAM
+        - Employee
+        - Ending
   /Position/Ending:
     put:
       summary: ''
@@ -1532,10 +1586,17 @@ paths:
                     - PositionID: '6313'
                       EndDate: 30-06-2020
       description: 'End the Position. This will also mean that the Employee will not be assigned anymore, so an EndDate will be set at the assignment of the Employee to this position.'
+      tags:
+        - TobiasIAM
+        - Position
+        - Ending
   /Position/Manager:
     get:
       summary: Your GET endpoint
-      tags: []
+      tags:
+        - TobiasIAM
+        - Position
+        - Manager
       responses:
         '200':
           description: OK
@@ -1638,6 +1699,10 @@ paths:
                     - PositionID: '6313'
                       ManagerEmployeeID: '7130'
       description: Replace the manager as a manager of a position
+      tags:
+        - TobiasIAM
+        - Position
+        - Manager
     delete:
       summary: ''
       operationId: delete-Position-Manager
@@ -1674,10 +1739,17 @@ paths:
                     - PositionID: '6313'
         description: ''
       description: Remove a manager as manager from a position
+      tags:
+        - TobiasIAM
+        - Position
+        - Manager
   /Position/Employee:
     get:
       summary: Your GET endpoint
-      tags: []
+      tags:
+        - TobiasIAM
+        - Position
+        - Employee
       responses:
         '200':
           description: OK
@@ -1773,6 +1845,10 @@ paths:
                   type: string
         description: ''
       description: Delete the assigment of an Employee on a Position (is this possible?)
+      tags:
+        - TobiasIAM
+        - Position
+        - Employee
     post:
       summary: ''
       operationId: post-Position-Employee
@@ -1824,10 +1900,16 @@ paths:
                       AssignmentPrimary: 0
         description: 'If AssignmentStartDate or AssignmentEndDate are empty or not provided, then the PositionStartDate and PositionEndDate will be used for these fields. AssignmentPrimary is default 1.'
       description: Change the properties of an assignment of an Employee on a Position
+      tags:
+        - TobiasIAM
+        - Position
+        - Employee
   /Department:
     get:
       summary: Your GET endpoint
-      tags: []
+      tags:
+        - TobiasIAM
+        - Department
       responses:
         '200':
           description: OK
@@ -1956,6 +2038,9 @@ paths:
                       UnitCode: CZ_IV_01AVGB_SO
                       TypeOfUnit: Afdeling
                       ManagerEmployeeID: '7130'
+      tags:
+        - TobiasIAM
+        - Department
     delete:
       summary: ''
       operationId: delete-Department
@@ -1980,11 +2065,17 @@ paths:
               properties:
                 Department:
                   type: string
+      tags:
+        - TobiasIAM
+        - Department
     parameters: []
   /Employee/Contactdetails:
     get:
       summary: Your GET endpoint
-      tags: []
+      tags:
+        - TobiasIAM
+        - Employee
+        - ContactDetails
       responses:
         '200':
           description: OK
@@ -2142,6 +2233,10 @@ paths:
                       Primary: 1
                       Private: 0
         description: ''
+      tags:
+        - TobiasIAM
+        - Employee
+        - ContactDetails
     delete:
       summary: ''
       operationId: delete-Employee-Contactdetails
@@ -2212,10 +2307,16 @@ paths:
                       ContactType: Telefoon mobiel
                       ContactNRorAddress: '0647100445'
       description: Delete the contactdetails of an Employee
+      tags:
+        - TobiasIAM
+        - Employee
+        - ContactDetails
   /Role:
     get:
       summary: Your GET endpoint
-      tags: []
+      tags:
+        - TobiasIAM
+        - Role
       responses:
         '200':
           description: OK
@@ -2322,7 +2423,10 @@ paths:
   /Role/User:
     get:
       summary: Your GET endpoint
-      tags: []
+      tags:
+        - TobiasIAM
+        - Role
+        - User
       responses:
         '200':
           description: OK
@@ -2409,7 +2513,9 @@ paths:
   /Title:
     get:
       summary: Your GET endpoint
-      tags: []
+      tags:
+        - TobiasIAM
+        - Title
       responses:
         '200':
           description: OK
@@ -2447,7 +2553,7 @@ paths:
                   Titles:
                     - Title: ''
         description: 'If the Title is empty (="") then all titles will be provided.'
-      description: Get one or all titles
+      description: 'Get one or all titles, which can be used in a Position or for an Employee'
     delete:
       summary: ''
       operationId: delete-Title
