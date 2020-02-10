@@ -1204,6 +1204,69 @@ paths:
       responses:
         '200':
           description: OK
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  EmployeeID:
+                    type: string
+                  ContactType:
+                    type: string
+                  ContactNRorAddress:
+                    type: string
+                  Result:
+                    type: string
+                required:
+                  - EmployeeID
+                  - ContactType
+                  - ContactNRorAddress
+                  - Result
+              examples:
+                Example-Delete Employee ContactDetails:
+                  value:
+                    EmployeesContactDetails:
+                      - EmployeeID: '6313'
+                        ContactType: E-mailadres
+                        ContactNRorAddress: e.copier@ymere.nl
+                        Result: OK
+                      - EmployeeID: '6313'
+                        ContactType: Telefoon
+                        ContactNRorAddress: 088 080 62 83
+                        Result: ContactNR or Address does not exists
+                      - EmployeeID: '6313'
+                        ContactType: Telefoon mobiel
+                        ContactNRorAddress: '0647100445'
+                        Result: Employee not found
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                EmployeeID:
+                  type: string
+                ContactType:
+                  type: string
+                ContactNRorAddress:
+                  type: string
+              required:
+                - EmployeeID
+                - ContactType
+                - ContactNRorAddress
+            examples:
+              Example-Delete all Contactdetails:
+                value:
+                  EmployeesContactDetails:
+                    - EmployeeID: '6313'
+                      ContactType: E-mailadres
+                      ContactNRorAddress: e.copier@ymere.nl
+                    - EmployeeID: '6313'
+                      ContactType: Telefoon
+                      ContactNRorAddress: 088 080 62 83
+                    - EmployeeID: '6313'
+                      ContactType: Telefoon mobiel
+                      ContactNRorAddress: '0647100445'
   /Role:
     get:
       summary: Your GET endpoint
