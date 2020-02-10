@@ -201,6 +201,8 @@ paths:
                   SID:
                     type: string
                     description: UserInfo(userInfo).SID
+                  Result:
+                    type: string
                 required:
                   - UserID
                   - AccountType
@@ -262,6 +264,39 @@ paths:
       responses:
         '200':
           description: OK
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  SAMAccountName:
+                    type: string
+                  Domain:
+                    type: string
+                  Result:
+                    type: string
+              examples:
+                Example-OK:
+                  value:
+                    Users:
+                      - SamAccountName: e.copier_ym
+                        Domain: asp.local
+                        Result: OK
+                Example-Not Found:
+                  value:
+                    UserEmployee:
+                      - SamAccountName: e.copier_ym
+                        Domain: asp.local
+                        Result: User not found
+                      - SamAccountName: a.grudzien_ym
+                        Domain: asp.local
+                        Result: User not found
+                Example-Already Exists:
+                  value:
+                    Users:
+                      - SamAccountName: e.copier_ym
+                        Domain: asp.local
+                        Result: User already exists
       description: 'Parameters for selecting User. SamAccountname in combination with Domain will return one user or the user is not found. If one user is found, the user is deleted.'
       requestBody:
         content:
@@ -278,6 +313,19 @@ paths:
               required:
                 - SAMAccountName
                 - Domain
+            examples:
+              Example-One user:
+                value:
+                  Users:
+                    - SAMAccountName: e.copier_ym
+                      Domain: asp.local
+              Example-Multiple Users:
+                value:
+                  Users:
+                    - SamAccountName: e.copier_ym
+                      Domain: asp.local
+                    - SamAccountName: a.grudzien_ym
+                      Domain: asp.local
         description: ''
   /Employee:
     get:
@@ -570,8 +618,62 @@ paths:
     get:
       summary: Your GET endpoint
       tags: []
-      responses: {}
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  PositionID:
+                    type: string
+                  Task:
+                    type: string
+                  DepartmentName:
+                    type: string
+                  DepartmentAlias:
+                    type: string
+                  PositionDescription:
+                    type: string
+                  PositionTitle:
+                    type: string
+                  ManagerEmployeeID:
+                    type: string
+                  ManagerFullName:
+                    type: string
+                  ManagerTask:
+                    type: string
+                  ManagerDepartmentName:
+                    type: string
+                  ManagerDepartmentAlias:
+                    type: string
+                  ManagerPositionDescription:
+                    type: string
+                  ManagerPositionTitle:
+                    type: string
+                  ManagerPositionID:
+                    type: string
+              examples:
+                Example-One position:
+                  value:
+                    Position:
+                      - PositionID: '6313'
+                        Task: Werken
+                        DepartmentName: Concernzaken
+                        DepartmentAlias: Concernzaken
+                        PositionDescription: Werken bij Ymere
+                        PositionTitle: Medewerker projecten
+                        ManagerEmployeeID: '7130'
+                        ManagersFullName: Sophia Overbeeke
+                        ManagerTask: Werken
+                        ManagerDepartmentName: Informatievoorziening
+                        ManagerDepartmentAlias: Informatievoorzienin
+                        ManagerPositionDescription: Werken bij Ymere
+                        ManagersPositionTitle: Manager Informatievoorziening
+                        ManagersPositionID: '7130'
       operationId: get-Position
+      description: "Get the properties of a position\n\nProposed SQL Code:\nSELECT  -- H.PERSONNELNUMBER AS EmployeeID\n\t\t--,mdwDPT.NAME AS mdw_SamengesteldeNaam\n\t\tPOSD.POSITIONID AS PositionID\n\t\t,POSD.JOBID AS Task\n\t\t,POSD.NAME AS DepartmentName\n\t\t,POSD.NAMEALIAS AS DepartmentAlias\n\t\t,POSD.DESCRIPTION AS PositionDescription\n\t\t,POSD.TITLEID AS PositionTitle\n\t\t,Hmgr.PERSONNELNUMBER AS ManagerEmployeeID\n\t\t,Pmgr.FIRSTNAME + ' ' + LTRIM(Pmgr.MIDDLENAME + ' ' + Pmgr.LASTNAME) AS ManagersFullName\n\t\t,mgrPOSD.JOBID AS ManagerTask\n\t\t,mgrPOSD.NAME AS ManagerDepartmentName\n\t\t,mgrPOSD.NAMEALIAS AS ManagerDepartmentAlias\n\t\t,mgrPOSD.DESCRIPTION AS ManagerPositionDescription\n\t\t,mgrPOSD.TITLEID AS ManagersPositionTitle\n\t\t,mgrPOSD.POSITIONID AS ManagersPositionID\nFROM    --IAM.Tobias_AX_Prod.dbo.HCMWORKER AS H\n--LEFT OUTER JOIN \nIAM.Tobias_AX_Prod.dbo.HCMPOSITIONWORKERASSIGNMENT AS PW\t\t--ON PW.PARTITION = H.PARTITION AND PW.WORKER = H.RECID\n--LEFT OUTER JOIN IAM.Tobias_AX_Prod.dbo.dirpartytable AS mdwDPT ON mdwDPT.PARTITION = H.PARTITION AND mdwDPT.RECID = H.PERSON\nLEFT OUTER JOIN (SELECT        PD.POSITION, PD.JOB, J.JOBID, PD.DEPARTMENT, D.NAME, D.NAMEALIAS, PD.DESCRIPTION, PD.TITLE, T.TITLEID, PD.PARTITION, PD.RECID, D.PARTYNUMBER, ISNULL(PH.PARENTPOSITION, '') \n                                                         AS PARENTPOSITION, P.POSITIONID\n                               FROM            IAM.Tobias_AX_Prod.dbo.HCMPOSITIONDETAIL AS PD INNER JOIN\n                                                         IAM.Tobias_AX_Prod.dbo.HCMPOSITION AS P ON P.PARTITION = PD.PARTITION AND P.RECID = PD.POSITION INNER JOIN\n                                                         IAM.Tobias_AX_Prod.dbo.HCMJOB AS J ON J.RECID = PD.JOB AND J.PARTITION = PD.PARTITION LEFT OUTER JOIN\n                                                         IAM.Tobias_AX_Prod.dbo.HCMTITLE AS T ON T.RECID = PD.TITLE AND T.PARTITION = PD.PARTITION LEFT OUTER JOIN\n                                                         IAM.Tobias_AX_Prod.dbo.dirpartytable AS D ON D.RECID = PD.DEPARTMENT AND D.PARTITION = PD.PARTITION LEFT OUTER JOIN\n                                                         IAM.Tobias_AX_Prod.dbo.HCMPOSITIONHIERARCHY AS PH ON PH.PARTITION = P.PARTITION AND PH.POSITION = P.RECID\n                               WHERE        (PD.VALIDFROM <= GETDATE()) AND (PD.VALIDTO >= GETDATE()) AND (PH.VALIDFROM <= GETDATE()) AND (PH.VALIDTO >= GETDATE()))\n\t\t\t\t AS POSD ON POSD.PARTITION = PW.PARTITION AND POSD.POSITION = PW.POSITION\nLEFT OUTER JOIN (SELECT        POSITION, WORKER, PARTITION, RECID\n                               FROM            IAM.Tobias_AX_Prod.dbo.HCMPOSITIONWORKERASSIGNMENT AS HCMPOSITIONWORKERASSIGNMENT_1\n                               WHERE        (VALIDFROM <= GETDATE()) AND (VALIDTO >= GETDATE()))\n\t\t\t\t AS PWmgr ON PWmgr.PARTITION = PW.PARTITION AND PWmgr.POSITION = POSD.PARENTPOSITION\nLEFT OUTER JOIN IAM.Tobias_AX_Prod.dbo.HCMWORKER AS Hmgr ON Hmgr.PARTITION = PW.PARTITION AND Hmgr.RECID = PWmgr.WORKER\nLEFT OUTER JOIN IAM.Tobias_AX_Prod.dbo.DIRPERSONNAME AS Pmgr ON Pmgr.PARTITION = Hmgr.PARTITION AND Pmgr.PERSON = Hmgr.PERSON\nLEFT OUTER JOIN (SELECT        PD.POSITION, PD.JOB, J.JOBID, PD.DEPARTMENT, D.NAME, D.NAMEALIAS, PD.DESCRIPTION, PD.TITLE, T.TITLEID, PD.PARTITION, PD.RECID, D.PARTYNUMBER, ISNULL(PH.PARENTPOSITION, '') \n                                                         AS PARENTPOSITION, P.POSITIONID\n                               FROM            IAM.Tobias_AX_Prod.dbo.HCMPOSITIONDETAIL AS PD INNER JOIN\n                                                         IAM.Tobias_AX_Prod.dbo.HCMPOSITION AS P ON P.PARTITION = PD.PARTITION AND P.RECID = PD.POSITION INNER JOIN\n                                                         IAM.Tobias_AX_Prod.dbo.HCMJOB AS J ON J.RECID = PD.JOB AND J.PARTITION = PD.PARTITION INNER JOIN\n                                                         IAM.Tobias_AX_Prod.dbo.HCMTITLE AS T ON T.RECID = PD.TITLE AND T.PARTITION = PD.PARTITION INNER JOIN\n                                                         IAM.Tobias_AX_Prod.dbo.dirpartytable AS D ON D.RECID = PD.DEPARTMENT AND D.PARTITION = PD.PARTITION LEFT OUTER JOIN\n                                                         IAM.Tobias_AX_Prod.dbo.HCMPOSITIONHIERARCHY AS PH ON PH.PARTITION = PD.PARTITION AND PH.POSITION = P.RECID\n                               WHERE        (PD.VALIDFROM <= GETDATE()) AND (PD.VALIDTO >= GETDATE()) AND (PH.VALIDFROM <= GETDATE()) AND (PH.VALIDTO >= GETDATE()))\n\t\t\t\t AS mgrPOSD ON mgrPOSD.PARTITION = PW.PARTITION AND mgrPOSD.POSITION = PWmgr.POSITION\nWHERE        (PW.VALIDFROM < GETDATE()) AND (PW.VALIDTO > GETDATE()) AND  \n                         (Pmgr.VALIDFROM < GETDATE()) AND (Pmgr.VALIDTO > GETDATE())\nAnd POSD.POSITIONID = '6313'\tFOR JSON PATH, ROOT('Position')\n"
     post:
       summary: ''
       operationId: post-Position
@@ -1220,9 +1322,33 @@ paths:
     get:
       summary: Your GET endpoint
       tags: []
-      responses: {}
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: object
+              examples:
+                Example-One position:
+                  value:
+                    Position:
+                      - PositionID: '6313'
+                        Task: Werken
+                        DepartmentName: Concernzaken
+                        DepartmentAlias: Concernzaken
+                        PositionDescription: Werken bij Ymere
+                        PositionTitle: Medewerker projecten
+                        ManagerEmployeeID: '7130'
+                        ManagersFullName: Sophia Overbeeke
+                        ManagerTask: Werken
+                        ManagerDepartmentName: Informatievoorziening
+                        ManagerDepartmentAlias: Informatievoorzienin
+                        ManagerPositionDescription: Werken bij Ymere
+                        ManagersPositionTitle: Manager Informatievoorziening
+                        ManagersPositionID: '7130'
       operationId: get-Position-Department
-      description: 'Get all details of one or all Department(s) '
+      description: Get all details of one or all Department(s)
     post:
       summary: ''
       operationId: post-Position-Department
