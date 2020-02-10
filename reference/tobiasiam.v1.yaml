@@ -928,6 +928,25 @@ paths:
                     type: string
                   SearchName:
                     type: string
+              examples:
+                Example-One user:
+                  value:
+                    UserEmployee:
+                      - SamAccountName: a.grudzien_ym
+                        Domain: asp.local
+                        EmployeeID: '4148'
+                        SearchName: 'Grudzien, Alex'
+                Example-Multiple users:
+                  value:
+                    UserEmployee:
+                      - SamAccountName: e.copier_ym
+                        Domain: asp.local
+                        EmployeeID: '6313'
+                        SearchName: 'Copier, Eric'
+                      - SamAccountName: a.grudzien_ym
+                        Domain: asp.local
+                        EmployeeID: '4148'
+                        SearchName: 'Grudzien, Alex'
       operationId: get-User-EmployeeRelation
       description: Get the relation between the User and the Employee
       requestBody:
@@ -940,6 +959,19 @@ paths:
                   type: string
                 Domain:
                   type: string
+            examples:
+              Example-One user:
+                value:
+                  UserEmployee:
+                    - SamAccountName: a.grudzien_ym
+                      Domain: asp.local
+              Example-Multiple users:
+                value:
+                  UserEmployee:
+                    - SamAccountName: e.copier_ym
+                      Domain: asp.local
+                    - SamAccountName: a.grudzien_ym
+                      Domain: asp.local
     post:
       summary: ''
       operationId: post-User-EmployeeRelation
@@ -959,6 +991,32 @@ paths:
                     type: string
                   Result:
                     type: string
+              examples:
+                Example-One user:
+                  value:
+                    UserEmployee:
+                      - SamAccountName: e.copier_ym
+                        Domain: asp.local
+                        EmployeeID: '6313'
+                        Result: OK
+                Example-Not Found:
+                  value:
+                    UserEmployee:
+                      - SamAccountName: e.copier_ym
+                        Domain: asp.local
+                        EmployeeID: '6313'
+                        Result: User not found
+                      - SamAccountName: a.grudzien_ym
+                        Domain: asp.local
+                        EmployeeID: '4148'
+                        Result: Employee not found
+                Example-Relation already Exists:
+                  value:
+                    UserEmployee:
+                      - SamAccountName: e.copier_ym
+                        Domain: asp.local
+                        EmployeeID: '6313'
+                        Result: 'Relation not added, because another relation already exists'
       description: Add a relation between the User and the Employee
       requestBody:
         content:
@@ -976,6 +1034,22 @@ paths:
                 - SAMAccountName
                 - Domain
                 - EmployeeID
+            examples:
+              Example-One user:
+                value:
+                  UserEmployee:
+                    - SamAccountName: e.copier_ym
+                      Domain: asp.local
+                      EmployeeID: '6313'
+              Example-Multiple users:
+                value:
+                  UserEmployee:
+                    - SamAccountName: e.copier_ym
+                      Domain: asp.local
+                      EmployeeID: '6313'
+                    - SamAccountName: a.grudzien_ym
+                      Domain: asp.local
+                      EmployeeID: '4148'
     delete:
       summary: ''
       operationId: delete-User-EmployeeRelation
@@ -995,6 +1069,32 @@ paths:
                     type: string
                   Result:
                     type: string
+              examples:
+                Example-OK:
+                  value:
+                    UserEmployee:
+                      - SamAccountName: e.copier_ym
+                        Domain: asp.local
+                        EmployeeID: '6313'
+                        Result: OK
+                Example-Not Found:
+                  value:
+                    UserEmployee:
+                      - SamAccountName: e.copier_ym
+                        Domain: asp.local
+                        EmployeeID: '6313'
+                        Result: User not found
+                      - SamAccountName: a.grudzien_ym
+                        Domain: asp.local
+                        EmployeeID: '4148'
+                        Result: Employee not found
+                Example-Relation does not exists:
+                  value:
+                    UserEmployee:
+                      - SamAccountName: e.copier_ym
+                        Domain: asp.local
+                        EmployeeID: '6313'
+                        Result: Relation does not exists
       description: Delete the relation between the User and the Employee
       requestBody:
         content:
@@ -1008,6 +1108,22 @@ paths:
                   type: string
                 EmployeeID:
                   type: string
+            examples:
+              Example-One user:
+                value:
+                  UserEmployee:
+                    - SamAccountName: e.copier_ym
+                      Domain: asp.local
+                      EmployeeID: '6313'
+              Example-Multiple users:
+                value:
+                  UserEmployee:
+                    - SamAccountName: e.copier_ym
+                      Domain: asp.local
+                      EmployeeID: '6313'
+                    - SamAccountName: a.grudzien_ym
+                      Domain: asp.local
+                      EmployeeID: '4148'
     parameters: []
   /Employee/Ending:
     put:
