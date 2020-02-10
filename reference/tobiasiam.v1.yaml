@@ -343,6 +343,31 @@ paths:
       responses:
         '200':
           description: OK
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  EmployeeID:
+                    type: string
+                  Result:
+                    type: string
+              examples:
+                Example-Employee Inserted:
+                  value:
+                    Employees:
+                      - EmployeeID: '6313'
+                        Result: OK
+                Example-Title does not exists:
+                  value:
+                    Employees:
+                      - EmployeeID: '6313'
+                        Result: Title does not exists
+                Example-Employee already exists:
+                  value:
+                    Employees:
+                      - EmployeeID: '6313'
+                        Result: EmployeeID already exists
       requestBody:
         content:
           application/json:
@@ -363,15 +388,17 @@ paths:
                   type: string
                 EntryName:
                   type: string
+                SearchName:
+                  type: string
                 Title:
                   type: string
                 Gender:
                   type: string
                 Emailaddress:
                   type: string
-                MobileNR:
-                  type: string
                 PhoneNR:
+                  type: string
+                MobileNR:
                   type: string
                 StartDate:
                   type: string
@@ -384,10 +411,35 @@ paths:
                 - Lastname
                 - Salutation
                 - EntryName
+                - SearchName
                 - Title
-                - Gender
-                - EndDate
-        description: "If a Title is not availalable, an error message is returned. \nIf contactdetails are provided, the next values have to be set as default:\nEmailaddress: Type = \"E-mailadres\", Contactnummer/-adres = <Emailaddress>, Primair = True, Prive = False\nMobileNR: Type = \"Telefoon mobiel\", Contactnummer/-adres = <MobileNR>, Primair = True, Prive = False\nPhoneNR: Type = \"Telefoon\", Contactnummer/-adres = <PhoneNR>, Primair = True, Prive = False\nOmschrijving and Toestel will be empty."
+                - StartDate
+            examples:
+              Example-One Employee:
+                value:
+                  Employees:
+                    - EmployeeID: '6313'
+                      Initials: E.
+                      Nickname: Eric
+                      NamePrefix: ''
+                      Lastname: Copier
+                      Salutation: meneer Copier
+                      EntryName: De heer E. Copier
+                      SearchName: 'Copier, Eric'
+                      Title: Medewerker projecten
+                      Gender: Mannelijk
+                      EmailAddress: e.copier@ymere.nl
+                      PhoneNr: 088 080 62 83
+                      MobileNR: '0647100445'
+                      StartDate: '2018-01-18'
+                      EndDate: ''
+        description: |-
+          If a Title is not availalable, an error message is returned, but processing will continue if multiple Employees are provided.
+          If contactdetails are provided, the next values have to be set as default:
+                Emailaddress: Type = "E-mailadres", Contactnummer/-adres = <Emailaddress>, Primair = True, Prive = False
+                MobileNR: Type = "Telefoon mobiel", Contactnummer/-adres = <MobileNR>, Primair = True, Prive = False
+                PhoneNR: Type = "Telefoon", Contactnummer/-adres = <PhoneNR>, Primair = True, Prive = False
+               Omschrijving and Toestel will be empty.
       description: Insert a new Employee with his properties
     put:
       summary: ''
