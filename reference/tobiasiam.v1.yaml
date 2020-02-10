@@ -385,8 +385,8 @@ paths:
               Example-Multiple Employees:
                 value:
                   Employees:
-                    - EmployeeID: 6351
-                    - EmployeeID: 6356
+                    - EmployeeID: 6313
+                    - EmployeeID: 8314
         description: Filter properties
     post:
       summary: ''
