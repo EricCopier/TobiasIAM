@@ -912,20 +912,102 @@ paths:
     get:
       summary: Your GET endpoint
       tags: []
-      responses: {}
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  SAMAccountName:
+                    type: string
+                  Domain:
+                    type: string
+                  EmployeeID:
+                    type: string
+                  SearchName:
+                    type: string
       operationId: get-User-EmployeeRelation
+      description: Get the relation between the User and the Employee
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                SAMAccountName:
+                  type: string
+                Domain:
+                  type: string
     post:
       summary: ''
       operationId: post-User-EmployeeRelation
       responses:
         '200':
           description: OK
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  SAMAccountName:
+                    type: string
+                  Domain:
+                    type: string
+                  EmployeeID:
+                    type: string
+                  Result:
+                    type: string
+      description: Add a relation between the User and the Employee
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                SAMAccountName:
+                  type: string
+                Domain:
+                  type: string
+                EmployeeID:
+                  type: string
+              required:
+                - SAMAccountName
+                - Domain
+                - EmployeeID
     delete:
       summary: ''
       operationId: delete-User-EmployeeRelation
       responses:
         '200':
           description: OK
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  SAMAccountName:
+                    type: string
+                  Domain:
+                    type: string
+                  EmployeeID:
+                    type: string
+                  Result:
+                    type: string
+      description: Delete the relation between the User and the Employee
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                SAMAccountName:
+                  type: string
+                Domain:
+                  type: string
+                EmployeeID:
+                  type: string
     parameters: []
   /Employee/Ending:
     put:
@@ -954,7 +1036,7 @@ paths:
                     EmployeesEnding:
                       - EmployeeID: '6313'
                         Result: EmployeeID does not exists
-      description: Set the enddate of the Employment
+      description: Set the enddate of the Employment for an Employee
       requestBody:
         content:
           application/json:
@@ -1090,7 +1172,7 @@ paths:
                         Description: ''
                         Extension: ''
       operationId: get-Employee-Contactdetails
-      description: Get the contactdetails of an Employee
+      description: Get the contactdetails of an Employee or of an selection of Employees
       requestBody:
         content:
           application/json:
@@ -1145,7 +1227,8 @@ paths:
                         ContactNRorAddress: '0647100445'
                         Result: Employee not found
       description: |-
-        If contactdetails are provided, the next values have to be set as default:
+        Add contactdetails for an Employee.
+        If contactdetails are provided, the next values have to be set as default (if not all fields are provided):
               Emailaddress: Type = "E-mailadres", Contactnummer/-adres = <Emailaddress>, Primair = True, Prive = False
               MobileNR: Type = "Telefoon mobiel", Contactnummer/-adres = <MobileNR>, Primair = True, Prive = False
               PhoneNR: Type = "Telefoon", Contactnummer/-adres = <PhoneNR>, Primair = True, Prive = False
@@ -1267,6 +1350,7 @@ paths:
                     - EmployeeID: '6313'
                       ContactType: Telefoon mobiel
                       ContactNRorAddress: '0647100445'
+      description: Delete the contactdetails of an Employee
   /Role:
     get:
       summary: Your GET endpoint
@@ -1389,52 +1473,56 @@ paths:
                   RoleID:
                     type: integer
                     description: RoleHandle (Tobias_AX_Prod_Model.dbo.ModelSECURITYROLE)
-                  RoleDescription:
+                  RoleName:
                     type: string
                     description: RoleHandle (Tobias_AX_Prod_Model.dbo.ModelSECURITYROLE)
-                  SAMAccountName:
+                  RoleDescription:
                     type: string
                     description: UserInfo(userInfo).networkAlias
-                  DisplayName:
+                  SAMAccountName:
                     type: string
                     description: UserInfo(userInfo).Name
+                  DisplayName:
+                    type: string
               examples:
                 'Example-One Role (Only one user is assigned to this role!)':
                   value:
                     UsersPerRole:
                       - RoleID: 1437180
-                        RoleDescription: YM_FUNCTIONEELBEHEER_KLANT
+                        RoleName: YM_FUNCTIONEELBEHEER_KLANT
+                        RoleDescription: __FUNCTIONEELBEHEER_KLANT
                         SamAccountName: p.marcus_ym
                         DisplayName: Paul Marcus
                 Example-Multiple Roles:
                   value:
                     UsersPerRole:
                       - RoleID: 886351
-                        RoleDescription: '-SYSADMIN-'
-                        SamAccountName: ''
-                        DisplayName: ''
-                      - RoleID: 886351
-                        RoleDescription: '-SYSADMIN-'
-                        SamAccountName: 238mhattar
-                        DisplayName: Michael Hattar
-                      - RoleID: 886351
-                        RoleDescription: '-SYSADMIN-'
+                        RoleName: '-SYSADMIN-'
+                        RoleDescription: '@SYS344031'
                         SamAccountName: a.maat_ym
                         DisplayName: Aart Maat
                       - RoleID: 886351
-                        RoleDescription: '-SYSADMIN-'
+                        RoleName: '-SYSADMIN-'
+                        RoleDescription: '@SYS344031'
+                        SamAccountName: a.vanderhaag_ym
+                        DisplayName: 'van der Haag, Arnaud'
+                      - RoleID: 886351
+                        RoleName: '-SYSADMIN-'
+                        RoleDescription: '@SYS344031'
                         SamAccountName: a.wilting_ym
                         DisplayName: Arno Wilting
                       - RoleID: 1437180
-                        RoleDescription: YM_FUNCTIONEELBEHEER_KLANT
+                        RoleName: YM_FUNCTIONEELBEHEER_KLANT
+                        RoleDescription: __FUNCTIONEELBEHEER_KLANT
                         SamAccountName: p.marcus_ym
                         DisplayName: Paul Marcus
                       - RoleID: 1437197
-                        RoleDescription: YM_PMCContractsMaintain
+                        RoleName: YM_PMCContractsMaintain
+                        RoleDescription: Contract - Nieuwe en bestaande contracten muteren (Excl leegstandscode)
                         SamAccountName: ''
                         DisplayName: ''
       operationId: get-Role-User
-      description: Get all users with a particular role
+      description: "Get all users with a particular role\n\nProposed SQL Code:\nSELECT        SR.RoleHandle as RoleID, ISNULL(SR.NAME,'') AS RoleName, ISNULL(SR.Description,'') AS RoleDescription, ISNULL(UI.NETWORKALIAS,'') as SamAccountName, ISNULL(UI.NAME,'') as DisplayName\nFROM            IAM.Tobias_AX_Prod_Model.dbo.ModelSECURITYROLE AS SR LEFT JOIN\n                         IAM.Tobias_AX_Prod.dbo.SECURITYUSERROLE AS SUR ON SR.ROLEHANDLE = SUR.SECURITYROLE LEFT JOIN\n                         IAM.Tobias_AX_Prod.dbo.userinfo AS UI ON SUR.USER_ = UI.ID\nWHERE        SR.Rolehandle IN (1437180,1437197,886351)\nORDER BY SR.RoleHandle, UI.NETWORKALIAS \nFOR JSON PATH, ROOT('UsersPerRole')"
       requestBody:
         content:
           application/json:
@@ -1444,6 +1532,8 @@ paths:
                 RoleID:
                   type: integer
                   description: RoleHandle (Tobias_AX_Prod_Model.dbo.ModelSECURITYROLE)
+              required:
+                - RoleID
             examples:
               Example-One Role:
                 value:
