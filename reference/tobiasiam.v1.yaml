@@ -1913,14 +1913,73 @@ paths:
       responses:
         '200':
           description: OK
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  Department:
+                    type: string
+                  Result:
+                    type: string
+              examples:
+                Example-OK:
+                  value:
+                    Departments:
+                      - Department: Informatievoorziening
+                        Result: OK
+                Example-Already Exists:
+                  value:
+                    Departments:
+                      - Department: Informatievoorziening
+                        Result: Department already exists
+                Example-Manager not found:
+                  value:
+                    Departments:
+                      - Department: Informatievoorziening
+                        Result: Manager not found
       description: 'Change properties of a Department, which can be used in a Position'
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                Department:
+                  type: string
+            examples:
+              Example-1:
+                value:
+                  Departments:
+                    - Department: Informatievoorziening
+                      SearchName: Informatievoorzienin
+                      UnitCode: CZ_IV_01AVGB_SO
+                      TypeOfUnit: Afdeling
+                      ManagerEmployeeID: '7130'
     delete:
       summary: ''
       operationId: delete-Department
       responses:
         '200':
           description: OK
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  Department:
+                    type: string
+                  Result:
+                    type: string
       description: 'Delete a Department '
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                Department:
+                  type: string
     parameters: []
   /Employee/Contactdetails:
     get:
