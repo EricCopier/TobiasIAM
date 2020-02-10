@@ -283,8 +283,60 @@ paths:
     get:
       summary: Your GET endpoint
       tags: []
-      responses: {}
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  EmployeeID:
+                    type: string
+                  NickName:
+                    type: string
+                  Initials:
+                    type: string
+                  NamePrefix:
+                    type: string
+                  Lastname:
+                    type: string
+                  Salution:
+                    type: string
+                  EntryName:
+                    type: string
+                  Title:
+                    type: string
+                  Gender:
+                    type: string
+                  Startdate:
+                    type: string
+                  Enddate:
+                    type: string
+              examples:
+                Example-One Employee: {}
+                Example-Multiple Employees: {}
       operationId: get-Employee
+      description: Get the properties of one Employee or a selection of Employees
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                EmployeeID:
+                  type: string
+            examples:
+              Example-One Employee:
+                value:
+                  Employees:
+                    - EmployeeID: 6351
+              Example-Multiple Employees:
+                value:
+                  Employees:
+                    - EmployeeID: 6351
+                    - EmployeeID: 6356
+        description: Filter properties
     post:
       summary: ''
       operationId: post-Employee
@@ -325,8 +377,6 @@ paths:
                   type: string
                 EndDate:
                   type: string
-                '':
-                  type: string
               required:
                 - EmployeeID
                 - NickName
@@ -338,12 +388,45 @@ paths:
                 - Gender
                 - EndDate
         description: ''
+      description: Insert a new Employee with his properties
     put:
       summary: ''
       operationId: put-Employee
       responses:
         '200':
           description: OK
+      description: To update one or more properties of an Employee. Only the provided properties will be updated. The rest of the properties will remain the same.
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                EmployeeID:
+                  type: string
+                NickName:
+                  type: string
+                Initials:
+                  type: string
+                NamePrefix:
+                  type: string
+                Lastname:
+                  type: string
+                Salution:
+                  type: string
+                EntryName:
+                  type: string
+                Title:
+                  type: string
+                Gender:
+                  type: string
+                Startdate:
+                  type: string
+                EndDate:
+                  type: string
+              required:
+                - EmployeeID
+        description: 'Only the provided properties will be updated. Beneath is a complete list of all the properties that can be provided, but only the EmployeeID is mandatory. If a properties is not provided, the value will remain the same.'
   /Position:
     get:
       summary: Your GET endpoint
