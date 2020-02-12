@@ -2620,17 +2620,30 @@ paths:
               schema:
                 type: object
                 properties:
-                  '':
+                  Title:
                     type: string
+                  Result:
+                    type: string
+              examples:
+                Example-OK:
+                  value:
+                    Titles:
+                      - Title: Medewerker projecten
+                        Result: OK
       requestBody:
         content:
           application/json:
             schema:
               type: object
               properties:
-                '':
+                Title:
                   type: string
-      description: ''
+            examples:
+              Example-1:
+                value:
+                  Titles:
+                    - Title: Medewerker projecten
+      description: Insert a Title
 components:
   schemas:
     unauthorized_response:
