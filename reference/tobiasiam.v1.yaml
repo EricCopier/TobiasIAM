@@ -681,7 +681,7 @@ paths:
                 Example-One position:
                   value:
                     Position:
-                      - PositionID: '6313'
+                      - PositionID: 6xxx
                         Task: Werken
                         DepartmentName: Concernzaken
                         DepartmentAlias: Concernzaken
@@ -689,14 +689,14 @@ paths:
                         PositionTitle: Medewerker projecten
                         StartDate: '2018-12-28'
                         EndDate: '2154-12-31'
-                        ManagerEmployeeID: '7130'
-                        ManagersFullName: Sophia Overbeeke
+                        ManagerEmployeeID: 7xxx
+                        ManagersFullName: xxxx xxxxxx
                         ManagerTask: Werken
                         ManagerDepartmentName: Informatievoorziening
                         ManagerDepartmentAlias: Informatievoorzienin
                         ManagerPositionDescription: Werken bij Ymere
                         ManagersPositionTitle: Manager Informatievoorziening
-                        ManagersPositionID: '7130'
+                        ManagersPositionID: 7xxx
                         Result: OK
                 Example-Not Found:
                   value:
