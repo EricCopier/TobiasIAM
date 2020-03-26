@@ -1083,39 +1083,39 @@ paths:
                 Example-Multiple User:
                   value:
                     RolesPerUser:
-                      - SamAccountName: a.grudzien_ym
+                      - SamAccountName: a.aaaaa_ym
                         Domain: asp.local
-                        DisplayName: Alex Grudzien
+                        DisplayName: Aaaa Aaaaaa
                         RoleID: 886356
                         RoleName: SystemUser
                         RoleDescription: '@SYS323380'
-                      - SamAccountName: a.grudzien_ym
+                      - SamAccountName: a.aaaaa_ym
                         Domain: asp.local
-                        DisplayName: Alex Grudzien
+                        DisplayName: Aaaa Aaaaaa
                         RoleID: 1401443
                         RoleName: AR_FoxContactSeniorUser
                         RoleDescription: ''
-                      - SamAccountName: a.grudzien_ym
+                      - SamAccountName: a.aaaaa_ym
                         Domain: asp.local
-                        DisplayName: Alex Grudzien
+                        DisplayName: Aaaa Aaaaaa
                         RoleID: 1401444
                         RoleName: AR_FoxContactUser
                         RoleDescription: ''
-                      - SamAccountName: a.grudzien_ym
+                      - SamAccountName: a.aaaaa_ym
                         Domain: asp.local
-                        DisplayName: Alex Grudzien
+                        DisplayName: Aaaa Aaaaaa
                         RoleID: 1437068
                         RoleName: YM_CZ_MDW_KLANTCONTACT
                         RoleDescription: __CZ_MDW_KLANTCONTACT
-                      - SamAccountName: e.copier_ym
+                      - SamAccountName: x.xxxxx_ym
                         Domain: asp.local
-                        DisplayName: Eric Copier
+                        DisplayName: Xxxx Xxxxx
                         RoleID: 886351
                         RoleName: '-SYSADMIN-'
                         RoleDescription: '@SYS344031'
-                      - SamAccountName: e.copier_ym
+                      - SamAccountName: x.xxxxx_ym
                         Domain: asp.local
-                        DisplayName: Eric Copier
+                        DisplayName: Xxxx Xxxxx
                         RoleID: 886356
                         RoleName: SystemUser
                         RoleDescription: '@SYS323380'
