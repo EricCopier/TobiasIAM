@@ -81,59 +81,59 @@ paths:
                 Example-One user:
                   value:
                     Users:
-                      - UserId: 238ecopi
-                        DisplayName: Eric Copier
+                      - UserId: 238xxxxxx
+                        DisplayName: Xxxxx Xxxxxx
                         Domain: asp.local
-                        SamAccountName: e.copier_ym
+                        SamAccountName: x.xxxxxx_ym
                         AccountType: Active Directory-gebruiker
                         Company: '100'
                         Enable: 1
                         ExternalUser: 0
-                        Emailaddress: e.copier@ymere.nl
-                        SID: S-1-5-21-114616164-2729428166-570199722-519998
+                        Emailaddress: x.xxxxxx@ymere.nl
+                        SID: S-1-5-21-1146xxxx-2729428166-570199722-519998
                 Example-Multiple users:
                   value:
                     Users:
-                      - UserId: 001mvanz
-                        DisplayName: 'Zon, Merlijn van (Aareon)'
+                      - UserId: 001Aaaaa
+                        DisplayName: 'Aaa, Aaaaaaa aaa (Aareon)'
                         Domain: offices.local
-                        SamAccountName: 001mvanzon
+                        SamAccountName: 001aaaaaaaa
                         AccountType: Active Directory-gebruiker
                         Company: '100'
                         Enable: 0
                         ExternalUser: 0
-                        EmailAddress: merlijn.vanzon@aareon.nl
-                        SID: S-1-5-21-736736335-1643130235-4022078510-28832
-                      - UserId: 238ascha
-                        DisplayName: 'Schalkwijk - Froeling, Annika'
+                        EmailAddress: aaaaaa.aaaaaa@aareon.nl
+                        SID: S-1-5-21-736736335-16xxxxxxxx-4022078510-288xxx
+                      - UserId: 238yyyyy
+                        DisplayName: 'Yyyyyy, Yyyyyy'
                         Domain: asp.local
-                        SamAccountName: a.schalkwijk.froe_ym
+                        SamAccountName: y.yyyyyyy_ym
                         AccountType: Active Directory-gebruiker
                         Company: '100'
                         Enable: 0
                         ExternalUser: 0
-                        EmailAddress: a.schalkwijk.froeling@ymere.nl
-                        SID: S-1-5-21-114616164-2729428166-570199722-541935
-                      - UserId: 238asoer
-                        DisplayName: Aashni Soerdjbali
+                        EmailAddress: y.yyyyyyy@ymere.nl
+                        SID: S-1-5-21-114616164-27xxxxxxxxx-570199722-541xxx
+                      - UserId: 238bbbbb
+                        DisplayName: Bbbbbb Bbbbbbb
                         Domain: asp.local
-                        SamAccountName: a.soerdjbali_ym
+                        SamAccountName: b.bbbbbbb_ym
                         AccountType: Active Directory-gebruiker
                         Company: '100'
                         Enable: 0
                         ExternalUser: 0
-                        EmailAddress: a.soerdjbali@ymere.nl
-                        SID: S-1-5-21-114616164-2729428166-570199722-541994
-                      - UserId: 238avan2
-                        DisplayName: Alexander van Bruggen
+                        EmailAddress: b.bbbbbbbbb@ymere.nl
+                        SID: S-1-5-21-114616164-27xxxxxxx-570199722-541xxx
+                      - UserId: 238cccccc
+                        DisplayName: Cccc  ccc Cccccccc
                         Domain: asp.local
-                        SamAccountName: a.van.bruggen_ym
+                        SamAccountName: c.ccc.cccc_ym
                         AccountType: Active Directory-gebruiker
                         Company: '100'
                         Enable: 0
                         ExternalUser: 0
-                        EmailAddress: A.van.Bruggen@ymere.nl
-                        SID: S-1-5-21-114616164-2729428166-570199722-539660
+                        EmailAddress: c.ccc.cccccccc@ymere.nl
+                        SID: S-1-5-21-114616164-27xxxxxxx-570199722-539xxx
         '401':
           description: Unauthorized
           content:
