@@ -1429,25 +1429,25 @@ paths:
                 Example-OK:
                   value:
                     UserEmployee:
-                      - SamAccountName: e.copier_ym
+                      - SamAccountName: x.xxxxxxxx_ym
                         Domain: asp.local
                         EmployeeID: '6313'
                         Result: OK
                 Example-Not Found:
                   value:
                     UserEmployee:
-                      - SamAccountName: e.copier_ym
+                      - SamAccountName: x.xxxxxxxx_ym
                         Domain: asp.local
                         EmployeeID: '6313'
                         Result: User not found
-                      - SamAccountName: a.grudzien_ym
+                      - SamAccountName: b.bbbbbbb_ym
                         Domain: asp.local
                         EmployeeID: '4148'
                         Result: Employee not found
                 Example-Relation does not exists:
                   value:
                     UserEmployee:
-                      - SamAccountName: e.copier_ym
+                      - SamAccountName: x.xxxxxxxx_ym
                         Domain: asp.local
                         EmployeeID: '6313'
                         Result: Relation does not exists
