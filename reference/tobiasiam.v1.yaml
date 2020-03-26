@@ -281,22 +281,22 @@ paths:
                 Example-OK:
                   value:
                     Users:
-                      - SamAccountName: e.copier_ym
+                      - SamAccountName: x.xxxxxx_ym
                         Domain: asp.local
                         Result: OK
                 Example-Not Found:
                   value:
                     UserEmployee:
-                      - SamAccountName: e.copier_ym
+                      - SamAccountName: x.xxxxxxx_ym
                         Domain: asp.local
                         Result: User not found
-                      - SamAccountName: a.grudzien_ym
+                      - SamAccountName: b.bbbbbb_ym
                         Domain: asp.local
                         Result: User not found
                 Example-Already Exists:
                   value:
                     Users:
-                      - SamAccountName: e.copier_ym
+                      - SamAccountName: x.xxxxxx_ym
                         Domain: asp.local
                         Result: User already exists
       description: 'Parameters for selecting User. SamAccountname in combination with Domain will return one user or the user is not found. If one user is found, the user is deleted.'
@@ -319,14 +319,14 @@ paths:
               Example-One user:
                 value:
                   Users:
-                    - SAMAccountName: e.copier_ym
+                    - SAMAccountName: x.xxxxxx_ym
                       Domain: asp.local
               Example-Multiple Users:
                 value:
                   Users:
-                    - SamAccountName: e.copier_ym
+                    - SamAccountName: x.xxxxxxx_ym
                       Domain: asp.local
-                    - SamAccountName: a.grudzien_ym
+                    - SamAccountName: b.bbbbbbb_ym
                       Domain: asp.local
         description: ''
       tags:
