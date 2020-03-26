@@ -1068,15 +1068,15 @@ paths:
                 Example-One User:
                   value:
                     RolesPerUser:
-                      - SamAccountName: e.copier_ym
+                      - SamAccountName: x.xxxxx_ym
                         Domain: asp.local
-                        DisplayName: Eric Copier
+                        DisplayName: Xxxx Xxxxxx
                         RoleID: 886351
                         RoleName: '-SYSADMIN-'
                         RoleDescription: '@SYS344031'
-                      - SamAccountName: e.copier_ym
+                      - SamAccountName: x.xxxxxx_ym
                         Domain: asp.local
-                        DisplayName: Eric Copier
+                        DisplayName: Xxxx Xxxxxx
                         RoleID: 886356
                         RoleName: SystemUser
                         RoleDescription: '@SYS323380'
@@ -1146,14 +1146,14 @@ paths:
               Example-One User:
                 value:
                   RolesPerUser:
-                    - SamAccountName: e.copier_ym
+                    - SamAccountName: x.xxxxxx_ym
                       Domain: asp.local
               Example-Multiple User:
                 value:
                   RolesPerUser:
-                    - SamAccountName: e.copier_ym
+                    - SamAccountName: x.xxxxxx_ym
                       Domain: asp.local
-                    - SamAccountName: a.grudzien_ym
+                    - SamAccountName: b.bbbbbb_ym
                       Domain: asp.local
               Example-Select all users in Domain:
                 value:
