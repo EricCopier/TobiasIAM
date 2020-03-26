@@ -1629,15 +1629,15 @@ paths:
                 Example-OK:
                   value:
                     Position:
-                      - PositionID: '6313'
-                        ManagerEmployeeID: '7130'
-                        ManagersFullName: Sophia Overbeeke
+                      - PositionID: 6xxx
+                        ManagerEmployeeID: 7xxx
+                        ManagersFullName: xxxx xxxxxxx
                         ManagerTask: Werken
                         ManagerDepartmentName: Informatievoorziening
                         ManagerDepartmentAlias: Informatievoorzienin
                         ManagerPositionDescription: Werken bij Ymere
                         ManagersPositionTitle: Manager Informatievoorziening
-                        ManagersPositionID: '7130'
+                        ManagersPositionID: 7xxx
                         Result: OK
                 Example-No Manager:
                   value:
