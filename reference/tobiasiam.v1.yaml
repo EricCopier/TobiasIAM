@@ -162,7 +162,7 @@ paths:
             examples:
               Example Get one user:
                 value:
-                  SAMAccountName: e.copier_ym
+                  SAMAccountName: x.xxxxxx_ym
                   Domain: asp.local
                   Filter: ''
               Example Get all users from one domain:
