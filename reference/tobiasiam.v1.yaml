@@ -1782,12 +1782,12 @@ paths:
                 Example-OK:
                   value:
                     Position:
-                      - PositionID: '6313'
+                      - PositionID: 6xxx
                         PositionTitle: Medewerker projecten
                         PositionStartDate: '2018-12-28'
                         PositionEndDate: '2154-12-31'
-                        EmployeeID: '6313'
-                        SearchName: 'Copier, Eric'
+                        EmployeeID: 6xxx
+                        SearchName: 'Xxxxxx, Xxxx'
                         AssignmentStartDate: '2018-12-28'
                         AssignmentEndDate: '2154-12-31'
                         AssignmentPrimary: 0
