@@ -2474,31 +2474,31 @@ paths:
                       - RoleID: 1437180
                         RoleName: YM_FUNCTIONEELBEHEER_KLANT
                         RoleDescription: __FUNCTIONEELBEHEER_KLANT
-                        SamAccountName: p.marcus_ym
-                        DisplayName: Paul Marcus
+                        SamAccountName: x.xxxx_ym
+                        DisplayName: Xxxx Xxxxxx
                 Example-Multiple Roles:
                   value:
                     UsersPerRole:
                       - RoleID: 886351
                         RoleName: '-SYSADMIN-'
                         RoleDescription: '@SYS344031'
-                        SamAccountName: a.maat_ym
-                        DisplayName: Aart Maat
+                        SamAccountName: a.aaaa_ym
+                        DisplayName: Aaaa Aaaa
                       - RoleID: 886351
                         RoleName: '-SYSADMIN-'
                         RoleDescription: '@SYS344031'
-                        SamAccountName: a.vanderhaag_ym
-                        DisplayName: 'van der Haag, Arnaud'
+                        SamAccountName: b.bbbbbbb_ym
+                        DisplayName: 'bbbbbb, bbbb bbb bbb'
                       - RoleID: 886351
                         RoleName: '-SYSADMIN-'
                         RoleDescription: '@SYS344031'
-                        SamAccountName: a.wilting_ym
-                        DisplayName: Arno Wilting
+                        SamAccountName: c.cccccc_ym
+                        DisplayName: Cccc Ccccccc
                       - RoleID: 1437180
                         RoleName: YM_FUNCTIONEELBEHEER_KLANT
                         RoleDescription: __FUNCTIONEELBEHEER_KLANT
-                        SamAccountName: p.marcus_ym
-                        DisplayName: Paul Marcus
+                        SamAccountName: d.ddddd_ym
+                        DisplayName: Dddd Dddddd
                       - RoleID: 1437197
                         RoleName: YM_PMCContractsMaintain
                         RoleDescription: Contract - Nieuwe en bestaande contracten muteren (Excl leegstandscode)
