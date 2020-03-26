@@ -1468,16 +1468,16 @@ paths:
               Example-One user:
                 value:
                   UserEmployee:
-                    - SamAccountName: e.copier_ym
+                    - SamAccountName: x.xxxxxx_ym
                       Domain: asp.local
                       EmployeeID: '6313'
               Example-Multiple users:
                 value:
                   UserEmployee:
-                    - SamAccountName: e.copier_ym
+                    - SamAccountName: x.xxxxxx_ym
                       Domain: asp.local
                       EmployeeID: '6313'
-                    - SamAccountName: a.grudzien_ym
+                    - SamAccountName: b.bbbbbbb_ym
                       Domain: asp.local
                       EmployeeID: '4148'
       tags:
