@@ -2120,23 +2120,23 @@ paths:
                 Example-One Employee-3 contactdetails:
                   value:
                     EmployeesContactDetails:
-                      - EmployeeID: '6313'
+                      - EmployeeID: 6xxx
                         ContactType: E-mailadres
-                        ContactNRorAddress: e.copier@ymere.nl
+                        ContactNRorAddress: x.xxxxxx@ymere.nl
                         Primary: 1
                         Private: 0
                         Description: ''
                         Extension: ''
-                      - EmployeeID: '6313'
+                      - EmployeeID: 6xxx
                         ContactType: Telefoon
-                        ContactNRorAddress: 088 080 62 83
+                        ContactNRorAddress: 088 080 xx xx
                         Primary: 1
                         Private: 0
                         Description: ''
                         Extension: ''
-                      - EmployeeID: '6313'
+                      - EmployeeID: 6xxx
                         ContactType: Telefoon mobiel
-                        ContactNRorAddress: '0647100445'
+                        ContactNRorAddress: 06xxxxxx
                         Primary: 1
                         Private: 0
                         Description: ''
