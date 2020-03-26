@@ -891,15 +891,15 @@ paths:
               example-Update one or more properties:
                 value:
                   Position:
-                    - PositionID: '6313'
+                    - PositionID: 6xxx
                       Task: Werken
                       DepartmentName: Concernzaken
                       PositionDescription: Werken bij Ymere
                       PositionTitle: Medewerker projecten
                       StartDate: '2018-12-28'
                       EndDate: '2154-12-31'
-                      ManagerEmployeeID: '7130'
-                      EmployeeID: '6313'
+                      ManagerEmployeeID: 7xxx
+                      EmployeeID: 6xxx
         description: 'When a EmployeeID is provided, the following is rule is valid: If AssignmentStartDate or AssignmentEndDate are empty or not provided, then the PositionStartDate and PositionEndDate will be used for these fields. AssignmentPrimary is default 1. In this case the PositionStartDate and PositionEndDate and the default value will be used, because these fields are not provided in the Schema below. Better is to use the Position/Employee for filling the correct values of these fields.'
       tags:
         - TobiasIAM
