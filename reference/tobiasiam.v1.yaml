@@ -90,7 +90,7 @@ paths:
                         Enable: 1
                         ExternalUser: 0
                         Emailaddress: x.xxxxxx@ymere.nl
-                        SID: S-1-5-21-1146xxxx-2729428166-570199722-519998
+                        SID: S-1-5-21-1146xxxx-2729428166-570199722-519xxx
                 Example-Multiple users:
                   value:
                     Users:
