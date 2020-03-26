@@ -374,37 +374,37 @@ paths:
                 Example-One Employee:
                   value:
                     Employees:
-                      - EmployeeID: '6313'
+                      - EmployeeID: 6xxx
                         Initials: E.
-                        Nickname: Eric
+                        Nickname: wwwww
                         NamePrefix: ''
-                        Lastname: Copier
-                        Salutation: meneer Copier
-                        EntryName: De heer E. Copier
-                        SearchName: 'Copier, Eric'
+                        Lastname: Wwwww
+                        Salutation: meneer Wwwww
+                        EntryName: De heer E. Wwwww
+                        SearchName: 'Wwwww, Eric'
                         Title: Medewerker projecten
                         Gender: Mannelijk
-                        EmailAddress: e.copier@ymere.nl
-                        PhoneNr: 088 080 62 83
-                        MobileNR: '0647100445'
+                        EmailAddress: e.wwwww@ymere.nl
+                        PhoneNr: 088 080 xx xx
+                        MobileNR: 06xxxxxxxx
                         StartDate: '2018-01-18'
                         EndDate: ''
                 Example-Multiple Employees:
                   value:
                     Employees:
-                      - EmployeeID: '6313'
+                      - EmployeeID: 6xxx
                         Initials: E.
-                        Nickname: Eric
+                        Nickname: wwwww
                         NamePrefix: ''
-                        Lastname: Copier
-                        Salutation: meneer Copier
-                        EntryName: De heer E. Copier
-                        SearchName: 'Copier, Eric'
+                        Lastname: Wwwww
+                        Salutation: meneer Wwwww
+                        EntryName: De heer E. Wwwww
+                        SearchName: 'Wwwww, Eric'
                         Title: Medewerker projecten
                         Gender: Mannelijk
-                        EmailAddress: e.copier@ymere.nl
-                        PhoneNr: 088 080 62 83
-                        MobileNR: '0647100445'
+                        EmailAddress: e.wwwww@ymere.nl
+                        PhoneNr: 088 080 xx xx
+                        MobileNR: 06xxxxxxxx
                         StartDate: '2018-01-18'
                         EndDate: ''
                       - EmployeeID: '8314'
@@ -524,19 +524,19 @@ paths:
               Example-One Employee:
                 value:
                   Employees:
-                    - EmployeeID: '6313'
+                    - EmployeeID: 6xxx
                       Initials: E.
-                      Nickname: Eric
+                      Nickname: xxxx
                       NamePrefix: ''
-                      Lastname: Copier
-                      Salutation: meneer Copier
-                      EntryName: De heer E. Copier
-                      SearchName: 'Copier, Eric'
+                      Lastname: Xxxxx
+                      Salutation: meneer Xxxxx
+                      EntryName: De heer E. Xxxxx
+                      SearchName: 'Xxxxx, Xxxx'
                       Title: Medewerker projecten
                       Gender: Mannelijk
-                      EmailAddress: e.copier@ymere.nl
-                      PhoneNr: 088 080 62 83
-                      MobileNR: '0647100445'
+                      EmailAddress: x.xxxx@ymere.nl
+                      PhoneNr: 088 080 xx xx
+                      MobileNR: 06xxxxxxxx
                       StartDate: '2018-01-18'
                       EndDate: ''
         description: |-
@@ -618,10 +618,10 @@ paths:
               Example-Update Employee:
                 value:
                   Employees:
-                    - EmployeeID: '6313'
-                      Initials: E.
-                      Nickname: Eric
-                      Lastname: Copier
+                    - EmployeeID: 6xxx
+                      Initials: X.
+                      Nickname: Xxxx
+                      Lastname: Xxxxx
                       Title: Medewerker projecten
         description: 'Only the provided properties will be updated. Beneath is a complete list of all the properties that can be provided, but only the EmployeeID is mandatory. If a properties is not provided, the value will remain the same.'
       tags:
@@ -2045,9 +2045,9 @@ paths:
                   Departments:
                     - Department: Informatievoorziening
                       SearchName: Informatievoorzienin
-                      UnitCode: CZ_IV_01AVGB_SO
+                      UnitCode: CZ_IV_XXXXX_SO
                       TypeOfUnit: Afdeling
-                      ManagerEmployeeID: '7130'
+                      ManagerEmployeeID: 7xxx
         description: |+
           If not all properties are provided, the default values will be used:
           SearchName - Default the first 20 characters of the field Department
