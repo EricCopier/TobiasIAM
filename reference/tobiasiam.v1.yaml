@@ -1284,21 +1284,21 @@ paths:
                 Example-One user:
                   value:
                     UserEmployee:
-                      - SamAccountName: a.grudzien_ym
+                      - SamAccountName: b.bbbbbb_ym
                         Domain: asp.local
                         EmployeeID: '4148'
-                        SearchName: 'Grudzien, Alex'
+                        SearchName: 'Bbbbbbb, Bbbb'
                 Example-Multiple users:
                   value:
                     UserEmployee:
-                      - SamAccountName: e.copier_ym
+                      - SamAccountName: b.bbbbbb_ym
                         Domain: asp.local
                         EmployeeID: '6313'
-                        SearchName: 'Copier, Eric'
-                      - SamAccountName: a.grudzien_ym
+                        SearchName: 'Bbbbbbbb, Bbbb'
+                      - SamAccountName: x.xxxxxxx_ym
                         Domain: asp.local
                         EmployeeID: '4148'
-                        SearchName: 'Grudzien, Alex'
+                        SearchName: 'Xxxxxxx, xxxxx'
       operationId: get-User-EmployeeRelation
       description: Get the relation between the User and the Employee
       requestBody:
@@ -1315,14 +1315,14 @@ paths:
               Example-One user:
                 value:
                   UserEmployee:
-                    - SamAccountName: a.grudzien_ym
+                    - SamAccountName: b.bbbbbb_ym
                       Domain: asp.local
               Example-Multiple users:
                 value:
                   UserEmployee:
-                    - SamAccountName: e.copier_ym
+                    - SamAccountName: x.xxxxxx_ym
                       Domain: asp.local
-                    - SamAccountName: a.grudzien_ym
+                    - SamAccountName: b.bbbbbb_ym
                       Domain: asp.local
     post:
       summary: ''
