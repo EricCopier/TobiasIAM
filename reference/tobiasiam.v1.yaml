@@ -143,7 +143,7 @@ paths:
         '404':
           description: Not Found
       operationId: get-User
-      description: "Get all properties of a user within Tobias based on a UPN and Domain\n\nExample SQL Code:\nSELECT    UI.ID AS UserId\n        , UI.NAME as DisplayName\n\t, UI.NETWORKDOMAIN as Domain\n\t, UI.NETWORKALIAS as SamAccountName\n\t, CASE UI.[ACCOUNTTYPE] WHEN 0 THEN 'Active Directory-gebruiker' WHEN 1 THEN 'Active Directory-groep' WHEN 2 THEN 'Claimgebruiker' ELSE 'Onbekend' END AS AccountType\n\t, UI.COMPANY as Company\n\t, UI.Enable as Enable\n\t, UI.EXTERNALUSER as ExternalUser\n\t, SUI.EMAIL as EmailAddress\n\t, UI.SID as SID\nFROM    IAM.Tobias_AX_Prod.dbo.USERINFO AS UI LEFT OUTER JOIN\n        IAM.Tobias_AX_Prod.dbo.SYSUSERINFO AS SUI ON UI.ID = SUI.ID\nWhere UI.Networkdomain = 'asp.local' AND UI.NETWORKALIAS = 'e.copier_ym' FOR JSON PATH, ROOT('Users')\n"
+      description: "Get all properties of a user within Tobias based on a UPN and Domain\n\nExample SQL Code:\nSELECT    UI.ID AS UserId\n        , UI.NAME as DisplayName\n\t, UI.NETWORKDOMAIN as Domain\n\t, UI.NETWORKALIAS as SamAccountName\n\t, CASE UI.[ACCOUNTTYPE] WHEN 0 THEN 'Active Directory-gebruiker' WHEN 1 THEN 'Active Directory-groep' WHEN 2 THEN 'Claimgebruiker' ELSE 'Onbekend' END AS AccountType\n\t, UI.COMPANY as Company\n\t, UI.Enable as Enable\n\t, UI.EXTERNALUSER as ExternalUser\n\t, SUI.EMAIL as EmailAddress\n\t, UI.SID as SID\nFROM    IAM.Tobias_AX_Prod.dbo.USERINFO AS UI LEFT OUTER JOIN\n        IAM.Tobias_AX_Prod.dbo.SYSUSERINFO AS SUI ON UI.ID = SUI.ID\nWhere UI.Networkdomain = 'asp.local' AND UI.NETWORKALIAS = 'e.copier_ym' FOR JSON PATH, ROOT('Users')\n\nKan ook via Powershell: Get-AXUser (https://docs.microsoft.com/en-us/dynamicsax-2012/appuser-itpro/get-axuser) \n"
       requestBody:
         content:
           application/json:
@@ -219,6 +219,8 @@ paths:
       description: |-
         Insert a user in Tobias AX. The user must already exists in the Active Directory, because Tobias AX will get this user from the Active Directory. Extra or supplementary fields are supplied so the registration can be done thoroughly.
         Standard a Systemuser-Role is applied to the user.
+
+        Kan ook via Powershell: New-AXUser (https://docs.microsoft.com/en-us/dynamicsax-2012/appuser-itpro/new-axuser)
       requestBody:
         content:
           application/json:
@@ -991,7 +993,10 @@ paths:
                         Domain: asp.local
                         Enable: 1
                         Result: Unable to set
-      description: Enable or disable users
+      description: |-
+        Enable or disable users
+
+        Kan ook via Powershell: Disable-AXUser (https://docs.microsoft.com/en-us/dynamicsax-2012/appuser-itpro/disable-axuser)
       requestBody:
         content:
           application/json:
@@ -1120,16 +1125,7 @@ paths:
                         RoleName: SystemUser
                         RoleDescription: '@SYS323380'
       operationId: get-user-Role
-      description: |-
-        Get the Roles assigned to an user or a selection of users. Every user has al least one role (SystemUser).
-
-        Example SQL Code:
-        SELECT        Distinct UI.NETWORKALIAS as SamAccountName, UI.NETWORKDOMAIN as Domain, UI.NAME as DisplayName, ISNULL(SR.RoleHandle,'') as RoleID,  ISNULL(SR.NAME,'') AS RoleName, ISNULL(SR.Description,'') AS RoleDescription
-        FROM            IAM.Tobias_AX_Prod_Model.dbo.ModelSECURITYROLE AS SR RIGHT JOIN
-                                 IAM.Tobias_AX_Prod.dbo.SECURITYUSERROLE AS SUR ON SR.ROLEHANDLE = SUR.SECURITYROLE RIGHT JOIN
-                                 IAM.Tobias_AX_Prod.dbo.userinfo AS UI ON SUR.USER_ = UI.ID
-        WHERE        UI.Networkdomain = 'asp.local' AND UI.NETWORKALIAS = 'e.copier_ym' or UI.Networkalias = 'a.grudzien_ym'
-        FOR JSON PATH, ROOT('RolesPerUser')
+      description: "Get the Roles assigned to an user or a selection of users. Every user has al least one role (SystemUser).\n\nExample SQL Code:\nSELECT        Distinct UI.NETWORKALIAS as SamAccountName, UI.NETWORKDOMAIN as Domain, UI.NAME as DisplayName, ISNULL(SR.RoleHandle,'') as RoleID,  ISNULL(SR.NAME,'') AS RoleName, ISNULL(SR.Description,'') AS RoleDescription\nFROM            IAM.Tobias_AX_Prod_Model.dbo.ModelSECURITYROLE AS SR RIGHT JOIN\n                         IAM.Tobias_AX_Prod.dbo.SECURITYUSERROLE AS SUR ON SR.ROLEHANDLE = SUR.SECURITYROLE RIGHT JOIN\n                         IAM.Tobias_AX_Prod.dbo.userinfo AS UI ON SUR.USER_ = UI.ID\nWHERE        UI.Networkdomain = 'asp.local' AND UI.NETWORKALIAS = 'e.copier_ym' or UI.Networkalias = 'a.grudzien_ym'\nFOR JSON PATH, ROOT('RolesPerUser')\n\nKan ook via Powershell: Get-AXSecurityRole (https://docs.microsoft.com/en-us/dynamicsax-2012/appuser-itpro/get-axsecurityrole) "
       requestBody:
         content:
           application/json:
@@ -1184,7 +1180,10 @@ paths:
                   Result:
                     type: string
                     description: 'Result can be: "OK", "User not found", "Role not found", "User already had this role", "Role cannot be assigned due to SoD-violation"'
-      description: Assign a Role to an User
+      description: |-
+        Assign a Role to an User
+
+        Kan ook via Powershell: Add-AXSecurityRoleMember (https://docs.microsoft.com/en-us/dynamicsax-2012/appuser-itpro/add-axsecurityrolemember)
       requestBody:
         content:
           application/json:
@@ -2413,7 +2412,7 @@ paths:
                         RoleName: YM_PMCContractsMaintain
                         RoleDescription: Contract - Nieuwe en bestaande contracten muteren (Excl leegstandscode)
       operationId: get-Role
-      description: "Get the role or all roles\n\nExample SQL code:\nSELECT\t distinct RoleHandle as RoleID\n\t\t,Name as RoleName\n\t\t,Description as RoleDescription\nFROM    IAM.Tobias_AX_Prod_Model.dbo.ModelSECURITYROLE \nWHERE\tRolehandle > 1000000\t\t--??? left(Description,1) <> '@' --> Selection of all user-roles, which can be selected by customers\n   OR RoleHandle = 886356 --> SystemUser\n   OR RoleHandle = 886351 --> -SYSADMIN-  \n   FOR JSON PATH, ROOT('Roles')"
+      description: "Get the role or all roles\n\nExample SQL code:\nSELECT\t distinct RoleHandle as RoleID\n\t\t,Name as RoleName\n\t\t,Description as RoleDescription\nFROM    IAM.Tobias_AX_Prod_Model.dbo.ModelSECURITYROLE \nWHERE\tRolehandle > 1000000\t\t--??? left(Description,1) <> '@' --> Selection of all user-roles, which can be selected by customers\n   OR RoleHandle = 886356 --> SystemUser\n   OR RoleHandle = 886351 --> -SYSADMIN-  \n   FOR JSON PATH, ROOT('Roles')\n   \nKan ook via Powershell: Get-AXSecurityRoleInfo (https://docs.microsoft.com/en-us/dynamicsax-2012/appuser-itpro/get-axsecurityroleinfo) "
       requestBody:
         content:
           application/json:
@@ -2505,7 +2504,7 @@ paths:
                         SamAccountName: ''
                         DisplayName: ''
       operationId: get-Role-User
-      description: "Get all users with a particular role\n\nProposed SQL Code:\nSELECT        SR.RoleHandle as RoleID, ISNULL(SR.NAME,'') AS RoleName, ISNULL(SR.Description,'') AS RoleDescription, ISNULL(UI.NETWORKALIAS,'') as SamAccountName, ISNULL(UI.NAME,'') as DisplayName\nFROM            IAM.Tobias_AX_Prod_Model.dbo.ModelSECURITYROLE AS SR LEFT JOIN\n                         IAM.Tobias_AX_Prod.dbo.SECURITYUSERROLE AS SUR ON SR.ROLEHANDLE = SUR.SECURITYROLE LEFT JOIN\n                         IAM.Tobias_AX_Prod.dbo.userinfo AS UI ON SUR.USER_ = UI.ID\nWHERE        SR.Rolehandle IN (1437180,1437197,886351)\nORDER BY SR.RoleHandle, UI.NETWORKALIAS \nFOR JSON PATH, ROOT('UsersPerRole')"
+      description: "Get all users with a particular role\n\nProposed SQL Code:\nSELECT        SR.RoleHandle as RoleID, ISNULL(SR.NAME,'') AS RoleName, ISNULL(SR.Description,'') AS RoleDescription, ISNULL(UI.NETWORKALIAS,'') as SamAccountName, ISNULL(UI.NAME,'') as DisplayName\nFROM            IAM.Tobias_AX_Prod_Model.dbo.ModelSECURITYROLE AS SR LEFT JOIN\n                         IAM.Tobias_AX_Prod.dbo.SECURITYUSERROLE AS SUR ON SR.ROLEHANDLE = SUR.SECURITYROLE LEFT JOIN\n                         IAM.Tobias_AX_Prod.dbo.userinfo AS UI ON SUR.USER_ = UI.ID\nWHERE        SR.Rolehandle IN (1437180,1437197,886351)\nORDER BY SR.RoleHandle, UI.NETWORKALIAS \nFOR JSON PATH, ROOT('UsersPerRole')\n\nKan ook via Powershell: Get-AXSecurityRoleMember (https://docs.microsoft.com/en-us/dynamicsax-2012/appuser-itpro/get-axsecurityrolemember)"
       requestBody:
         content:
           application/json:
